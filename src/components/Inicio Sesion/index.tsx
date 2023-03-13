@@ -2,7 +2,6 @@ import React from "react";
 import {
   ButtonMUI,
   Component,
-  Componentflex,
   FormComponent,
   FullHeightDiv,
   InputMUI,
@@ -10,7 +9,7 @@ import {
 } from "./styles";
 import { FormGroup } from "@mui/material";
 import Image from "next/image";
-const InicioSesionComponent = () => {
+const InicioSesionComponent = () => {  
   return (
     <FullHeightDiv>
       <Component widthComponent="45%" style={{ display: "flex" }}>
