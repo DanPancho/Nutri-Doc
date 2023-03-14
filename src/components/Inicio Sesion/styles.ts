@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import Image from "next/image";
 import styled from "styled-components";
 
 export const FullHeightDiv = styled.div`
@@ -11,6 +12,7 @@ export const FullHeightDiv = styled.div`
 `;
 export const Componentflex = styled.div`
   display: flex;
+  justify-content: center;
 `;
 export const Component = styled.div<{
   color?: string;
@@ -19,8 +21,9 @@ export const Component = styled.div<{
   background-color: ${(props) =>
     props.color !== undefined ? props.color : "#fff"};
   width: ${(props) =>
-    props.widthComponent !== undefined ? props.widthComponent : "100%"};
+    props.widthComponent !== undefined ? props.widthComponent : "60em"};
   animation: moveY 1.5s ease-in-out;
+  display: flex;
 
   @keyframes moveY {
     0% {
@@ -33,6 +36,20 @@ export const Component = styled.div<{
       transform: translateY(0);
     }
   }
+
+  @media (max-width: 815px) {
+    display: block;
+    width: 25em;
+  }
+`;
+
+
+export const StyledImage = styled(Image)`
+  width: 90%;
+  height: auto;
+  @media (max-width: 815px) {
+    width: 100%;
+  }
 `;
 
 export const FormComponent = styled.div`
@@ -43,7 +60,7 @@ export const FormComponent = styled.div`
 `;
 export const Title = styled.h1`
   text-align: center;
-  margin-top: -60px;
+  margin-bottom: 20px;
 `;
 
 export const InputMUI = styled(TextField)`
@@ -51,13 +68,22 @@ export const InputMUI = styled(TextField)`
   margin-bottom: 7%;
 `;
 
-export const ButtonMUI = styled(Button)`
-  margin-top: 10px;
+export const ButtonMUI = styled(Button)<{colorBG?: string}>`
+  margin-top: 5px;
   width: 100%;
   align-items: center;
-  background-color: #f4c732;
+  background-color: ${(props)=> props.colorBG !== undefined ? props.colorBG : '#f4c732'};
   font-size: large;
   &:hover {
-    background-color: #f4c732;
+    background-color: ${(props)=> props.colorBG !== undefined ? props.colorBG : '#f4c732'};
+  }
+`;
+
+export const ButtonSocialesMUI = styled(Button)<{colorBG?: string}>`
+  margin-top: 20px;
+  background-color: ${(props)=> props.colorBG !== undefined ? props.colorBG : '#f4c732'};
+  font-size: large;
+  &:hover {
+    background-color: ${(props)=> props.colorBG !== undefined ? props.colorBG : '#f4c732'};
   }
 `;
