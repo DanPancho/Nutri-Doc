@@ -1,4 +1,4 @@
-import InicioSesion from "./Inicio Sesion";
+import InicioSesion from "./inicio-sesion";
 
 export default function Home() {
   return (

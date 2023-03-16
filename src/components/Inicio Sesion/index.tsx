@@ -14,8 +14,37 @@ import { FormGroup } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import Link from "next/link";
+import {auth} from "../../../firebase";
+import Swal from 'sweetalert2'
+import {
+  GoogleAuthProvider,
+  signInWithPopup
+} from "firebase/auth";
 
 const InicioSesionComponent = () => {
+
+  const onGoogle = async () => {
+    try {   
+      const provider = new GoogleAuthProvider()
+      await signInWithPopup(auth,provider)
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'Bienvenido!',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    }catch(error) { 
+      Swal.fire({
+        position: 'center',
+        icon: 'error',
+        title: 'Ya se encuentra registrado!',
+        showConfirmButton: false,
+        timer: 1500
+      })
+    }
+
+  }
   return (
     <FullHeightDiv>
       <Component widthComponent="50em">
@@ -60,6 +89,7 @@ const InicioSesionComponent = () => {
                 variant="contained"
                 type="submit"
                 colorBG="#FF0000"
+                onClick={onGoogle}
               >
                 <GoogleIcon />
               </ButtonSocialesMUI>
