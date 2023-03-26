@@ -1,50 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  ButtonMUI,
   ButtonSocialesMUI,
   Component,
   Componentflex,
   FormComponent,
   FullHeightDiv,
-  InputMUI,
   StyledImage,
   Title,
 } from "./styles";
 import { FormGroup } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
-import Link from "next/link";
-import {auth} from "../../../firebase";
-import Swal from 'sweetalert2'
-import {
-  GoogleAuthProvider,
-  signInWithPopup
-} from "firebase/auth";
+import { useInicioSesion } from "@/utils/hooks/InicioSesion/useLogin";
+import FormRegister from "@/utils/components/forms/Formregister";
+import FormLogin from "@/utils/components/forms/Formlogin";
 
 const InicioSesionComponent = () => {
+  const { useGoogle } = useInicioSesion();
+  const [register, setRegister] = useState(false);
 
-  const onGoogle = async () => {
-    try {   
-      const provider = new GoogleAuthProvider()
-      await signInWithPopup(auth,provider)
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Bienvenido!',
-        showConfirmButton: false,
-        timer: 1500
-      })
-    }catch(error) { 
-      Swal.fire({
-        position: 'center',
-        icon: 'error',
-        title: 'Ya se encuentra registrado!',
-        showConfirmButton: false,
-        timer: 1500
-      })
-    }
-
-  }
   return (
     <FullHeightDiv>
       <Component widthComponent="50em">
@@ -57,47 +31,53 @@ const InicioSesionComponent = () => {
         <FormComponent>
           <FormGroup>
             <div>
-              <Title style={{paddingTop: '20px'}}>Inicio Sesión</Title>
+              <Title style={{ paddingTop: "20px" }}>
+                {register ? "Nueva Cuenta" : "Inicio Sesión"}
+              </Title>
             </div>
-            <InputMUI
-              id="standard-basic"
-              label="Ingrese su correo electronico"
-              variant="standard"
-              color="success"
-            />
-            <br />
-            <InputMUI
-              id="standard-basic"
-              label="Ingrese su contraseña"
-              variant="standard"
-              color="success"
-            />
-            <br />
-            <ButtonMUI variant="contained" type="submit">
-              Iniciar Sesión
-            </ButtonMUI>
+            {
+              register ? <FormRegister /> : <FormLogin />
+            }
             <Componentflex>
               <ButtonSocialesMUI
                 variant="contained"
                 type="submit"
                 style={{ marginRight: "20px" }}
-                colorBG="#3b5998 "
+                colorbg="#3b5998 "
               >
                 <FacebookIcon />
               </ButtonSocialesMUI>
               <ButtonSocialesMUI
                 variant="contained"
                 type="submit"
-                colorBG="#FF0000"
-                onClick={onGoogle}
+                colorbg="#FF0000"
+                onClick={useGoogle}
               >
                 <GoogleIcon />
               </ButtonSocialesMUI>
             </Componentflex>
             <Componentflex>
-              <p style={{marginTop: '15px', paddingBottom: '20px'}}>
-                ¿Aun no tienes una cuenta? <Link href={"/"}>Registrate</Link>{" "}
-              </p>
+              {register ? (
+                <p style={{ marginTop: "15px", paddingBottom: "20px" }}>
+                  ¿Ya tienes una cuenta?{" "}
+                  <strong
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setRegister(!register)}
+                  >
+                    Iniciar Sesión
+                  </strong>{" "}
+                </p>
+              ) : (
+                <p style={{ marginTop: "15px", paddingBottom: "20px" }}>
+                  ¿Aun no tienes una cuenta?{" "}
+                  <strong
+                    style={{ cursor: "pointer" }}
+                    onClick={() => setRegister(!register)}
+                  >
+                    Registrate
+                  </strong>{" "}
+                </p>
+              )}
             </Componentflex>
           </FormGroup>
         </FormComponent>

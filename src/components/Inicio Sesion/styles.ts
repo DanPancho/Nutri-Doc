@@ -68,22 +68,22 @@ export const InputMUI = styled(TextField)`
   margin-bottom: 7%;
 `;
 
-export const ButtonMUI = styled(Button)<{colorBG?: string}>`
+export const ButtonMUI = styled(Button)<{colorbg?: string}>`
   margin-top: 5px;
   width: 100%;
   align-items: center;
-  background-color: ${(props)=> props.colorBG !== undefined ? props.colorBG : '#f4c732'};
+  background-color: ${(props)=> props.colorbg !== undefined ? props.colorbg : '#f4c732'};
   font-size: large;
   &:hover {
-    background-color: ${(props)=> props.colorBG !== undefined ? props.colorBG : '#f4c732'};
+    background-color: ${(props)=> props.colorbg !== undefined ? props.colorbg : '#f4c732'};
   }
 `;
 
-export const ButtonSocialesMUI = styled(Button)<{colorBG?: string}>`
+export const ButtonSocialesMUI = styled(Button)<{colorbg?: string}>`
   margin-top: 20px;
-  background-color: ${(props)=> props.colorBG !== undefined ? props.colorBG : '#f4c732'};
+  background-color: ${(props)=> props.colorbg !== undefined ? props.colorbg : '#f4c732'};
   font-size: large;
   &:hover {
-    background-color: ${(props)=> props.colorBG !== undefined ? props.colorBG : '#f4c732'};
+    background-color: ${(props)=> props.colorbg !== undefined ? props.colorbg : '#f4c732'};
   }
 `;
