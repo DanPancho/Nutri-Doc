@@ -13,7 +13,7 @@ const FormRegister = () => {
         variant="standard"
         color="success"
         onChange={formikRegister.handleChange}
-        helperText={formikRegister.errors.email && formikRegister.errors.email}
+        helperText={formikRegister.errors && formikRegister.errors.email}
         sx={{
           "& .MuiFormHelperText-root": {
             color: "red",
@@ -30,7 +30,7 @@ const FormRegister = () => {
         type={"password"}
         onChange={formikRegister.handleChange}
         helperText={
-          formikRegister.errors.password && formikRegister.errors.password
+          formikRegister.errors && formikRegister.errors.password
         }
         sx={{
           "& .MuiFormHelperText-root": {
@@ -48,7 +48,7 @@ const FormRegister = () => {
         type={"password"}
         onChange={formikRegister.handleChange}
         helperText={
-          formikRegister.errors.passwordRep && formikRegister.errors.passwordRep
+          formikRegister.errors && formikRegister.errors.passwordRep
         }
         sx={{
           "& .MuiFormHelperText-root": {

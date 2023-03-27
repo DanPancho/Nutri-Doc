@@ -14,7 +14,7 @@ const FormLogin = () => {
         variant="standard"
         color="success"
         onChange={formikLogin.handleChange}
-        helperText={formikLogin.errors.email && formikLogin.errors.email}
+        helperText={formikLogin.errors && formikLogin.errors.email}
         sx={{
           "& .MuiFormHelperText-root": {
             color: 'red'
@@ -30,7 +30,7 @@ const FormLogin = () => {
         variant="standard"
         color="success"
         onChange={formikLogin.handleChange}
-        helperText={formikLogin.errors.password && formikLogin.errors.password}
+        helperText={formikLogin.errors && formikLogin.errors.password}
         sx={{
           "& .MuiFormHelperText-root": {
             color: 'red'

@@ -50,7 +50,7 @@ export const useInicioSesion = () => {
       }
     }
     catch(error) {
-      await ModalSweet('Error al iniciar sesión', 'error');
+      await ModalSweet('Usuario ya registrado', 'error');
     } 
   }
   return {
