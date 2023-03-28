@@ -1,5 +1,8 @@
 import ModalSweet from "@/components/modals";
+import AuthContext from "@/contexts/authContext";
 import { GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, sendEmailVerification, createUserWithEmailAndPassword } from "firebase/auth"
+import { useRouter } from "next/router";
+import { useContext } from "react";
 import { auth } from "../../../../firebase";
 
 interface IValueLogin  {
@@ -7,6 +10,8 @@ interface IValueLogin  {
   password: string
 }
 export const useInicioSesion = () => {
+  const {setEmail} = useContext(AuthContext);
+  const rouer = useRouter();
   const useGoogle = async () => {
     try { 
       const provider = new GoogleAuthProvider();
@@ -21,7 +26,9 @@ export const useInicioSesion = () => {
     try { 
       signInWithEmailAndPassword(auth, values.email, values.password).then(async ({user}) => {
         if(user?.emailVerified) {
+          setEmail(values.email);
          await ModalSweet('!Bienvenido!', 'success');
+         rouer.push('/home')
         }else { 
           ModalSweet('Verifica tu correo electrónico', 'error');
         }
