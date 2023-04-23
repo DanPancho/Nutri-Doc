@@ -77,6 +77,7 @@ export const ButtonMUI = styled(Button)<{colorbg?: string}>`
   &:hover {
     background-color: ${(props)=> props.colorbg !== undefined ? props.colorbg : '#f4c732'};
   }
+  border-radius: 15px;
 `;
 
 export const ButtonSocialesMUI = styled(Button)<{colorbg?: string}>`
