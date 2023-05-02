@@ -10,6 +10,3 @@ export const ContainerRetos = styled.div`
         width: 100%;
     }
 `
-
-
-//1329

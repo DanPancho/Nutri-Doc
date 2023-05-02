@@ -1,11 +1,9 @@
-import { Switch } from "@mui/material";
 import Image from "next/image";
 import React from "react";
 import { Container, ContainerDescription, Description, Title } from "./styles";
 
 const ListItemComponent = (props: any) => {
   const { name, description, imgsrc } = props;
-  console.log(props);
 
   return (
     <>
