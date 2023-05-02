@@ -11,9 +11,9 @@ const RetosComponent = () => {
   return (
     <ContainerRetos>
       <Title>Retos Alimenticios</Title>
-      {retos.map((item, index) => (
+      {retos.map((item) => (
         <Paper
-          key={index}
+          key={item.title}
           elevation={3}
           sx={{ padding: "3%", marginBottom: "0.5em" }}
         >

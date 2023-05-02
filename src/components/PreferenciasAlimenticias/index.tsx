@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   BaseLayout
 } from "./styles";
@@ -12,63 +12,63 @@ export const food: IFoods = {
       title: "Frutas",
       foods: [
         {
-          name: "Manzana",
+          name: "Manzana1",
           description:
             "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
           imgsrc:
             "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
         },
         {
-          name: "Platano",
+          name: "Platano2",
           description:
             "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
           imgsrc:
             "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
         },
         {
-          name: "Uvas",
+          name: "Uvas3",
           description:
             "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
           imgsrc:
             "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
         },
         {
-          name: "Manzana",
+          name: "Manzana4",
           description:
             "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
           imgsrc:
             "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
         },
         {
-          name: "Platano",
+          name: "Platano5",
           description:
             "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
           imgsrc:
             "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
         },
         {
-          name: "Uvas",
+          name: "Uvas6",
           description:
             "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
           imgsrc:
             "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
         },
         {
-          name: "Manzana",
+          name: "Manzana7",
           description:
             "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
           imgsrc:
             "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
         },
         {
-          name: "Platano",
+          name: "Platano8",
           description:
             "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
           imgsrc:
             "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
         },
         {
-          name: "Uvas",
+          name: "Uvas9",
           description:
             "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
           imgsrc:

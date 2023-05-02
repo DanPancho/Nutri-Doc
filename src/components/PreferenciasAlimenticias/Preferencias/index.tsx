@@ -39,8 +39,8 @@ const AlimentosPreferencias = ({ food }: { food: IFoods }) => {
         )}
         <List style={{ flex: 1, overflowY: "scroll" }}>
           <Heading>{food.content[value].title}</Heading>
-          {food.content[value].foods.map((item, index) => (
-            <ListItem button key={index}>
+          {food.content[value].foods.map((item) => (
+            <ListItem button key={item.name}>
               <ListItemAvatar>
                 <Avatar
                   style={{ width: "3em", height: "3em", marginRight: "3rem" }}

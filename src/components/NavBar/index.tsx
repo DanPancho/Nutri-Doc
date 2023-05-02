@@ -36,8 +36,8 @@ export default function DrawerAppBar(props: Props) {
       </Typography>
       <Divider />
       <List>
-        {navItems.map((item, index) => (
-          <ListItem key={index} disablePadding>
+        {navItems.map((item) => (
+          <ListItem key={item.name} disablePadding>
             <ListItemButton sx={{ textAlign: "center" }}>
               <ListItemText
                 primary={item.name}
@@ -74,8 +74,8 @@ export default function DrawerAppBar(props: Props) {
             NUTRI DOC
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item , index) => (
-              <Button key={index} sx={{ color: "#000" }}>
+            {navItems.map((item ) => (
+              <Button key={item.name} sx={{ color: "#000" }}>
                 {item.name}
               </Button>
             ))}
