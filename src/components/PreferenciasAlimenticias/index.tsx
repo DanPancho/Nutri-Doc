@@ -1,54 +1,135 @@
 import React, { useState } from "react";
 import {
-  AccordionDetails,
-  AccordionSummary,
-  List,
-  ListItem,
-  Avatar,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {
-  AccordionSummaryWrapper,
-  AccordionWrapper,
-  BaseLayout,
-  ContainerPreferencias,
-  Heading,
-  ListItemWrapper,
-  ListWrapper,
-  Title,
-  ContainerUserData,
-  NameUser,
-  EmailUser,
-  AnimationBase,
+  BaseLayout
 } from "./styles";
-import ListItemComponent from "../ListItem";
-import { ButtonMUI } from "../Inicio Sesion/styles";
+import UserData from "./UserData";
+import { IFoods } from "@/interfaces/food/food";
+import AlimentosPreferencias from "./Preferencias";
 
-const foods = {
-  frutas: [
+export const food: IFoods = {
+  content: [
     {
-      name: "Manzana",
-      description:
-        "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
-      imgsrc:
-        "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+      title: "Frutas",
+      foods: [
+        {
+          name: "Manzana",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Platano",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Uvas",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Manzana",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Platano",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Uvas",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Manzana",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Platano",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Uvas",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        
+      ],
     },
     {
-      name: "Platano",
-      description:
-        "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
-      imgsrc:
-        "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+      title: "Verduras",
+      foods: [
+        {
+          name: "Lechuga",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Tomate",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Zanahorias",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+      ],
     },
     {
-      name: "Uvas",
-      description:
-        "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
-      imgsrc:
-        "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+      title: "Carnes",
+      foods: [
+        {
+          name: "Res",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Pollo",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+        {
+          name: "Pescado",
+          description:
+            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
+          imgsrc:
+            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+        },
+      ],
     },
   ],
-  verduras: ["Lechuga", "Tomate", "Zanahoria"],
 };
 
 const Preferencias: React.FC = () => {
@@ -61,109 +142,8 @@ const Preferencias: React.FC = () => {
 
   return (
     <BaseLayout>
-      <ContainerUserData>
-        <AnimationBase>
-          <div style={{display: 'flex', justifyContent: 'center'}}>
-            <Avatar
-              src="https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I="
-              style={{
-                width: "50%",
-                height: "20vh",
-              }}
-            />
-          </div>
-          <NameUser>Daniel Arcos</NameUser>
-          <EmailUser>danielandres-01@outllok.com</EmailUser>
-          <ButtonMUI variant="contained">
-            <strong>Guardar Configuración</strong>
-          </ButtonMUI>
-        </AnimationBase>
-      </ContainerUserData>
-      <ContainerPreferencias>
-        <Title>Preferencias Alimenticias</Title>
-        <AccordionWrapper
-          expanded={expanded === "frutas"}
-          onChange={handleChange("frutas")}
-        >
-          <AccordionSummaryWrapper
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="frutas-content"
-            id="frutas-header"
-          >
-            <Heading>Frutas</Heading>
-          </AccordionSummaryWrapper>
-          <AccordionDetails>
-            <ListWrapper>
-              {foods.frutas.map((food, index) => (
-                <ListItemWrapper key={index}>
-                  <ListItemComponent {...food} />
-                </ListItemWrapper>
-              ))}
-            </ListWrapper>
-          </AccordionDetails>
-        </AccordionWrapper>
-        <AccordionWrapper
-          expanded={expanded === "verduras"}
-          onChange={handleChange("verduras")}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="verduras-content"
-            id="verduras-header"
-          >
-            <Heading>Verduras</Heading>
-          </AccordionSummary>
-          <AccordionDetails>
-            <List>
-              {foods.verduras.map((food, index) => (
-                <ListItem key={index}>{food}</ListItem>
-              ))}
-            </List>
-          </AccordionDetails>
-        </AccordionWrapper>
-        <AccordionWrapper
-          expanded={expanded === "frutas"}
-          onChange={handleChange("frutas")}
-        >
-          <AccordionSummaryWrapper
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="frutas-content"
-            id="frutas-header"
-          >
-            <Heading>Frutas</Heading>
-          </AccordionSummaryWrapper>
-          <AccordionDetails>
-            <ListWrapper>
-              {foods.frutas.map((food, index) => (
-                <ListItemWrapper key={index}>
-                  <ListItemComponent {...food} />
-                </ListItemWrapper>
-              ))}
-            </ListWrapper>
-          </AccordionDetails>
-        </AccordionWrapper>
-        <AccordionWrapper
-          expanded={expanded === "frutas"}
-          onChange={handleChange("frutas")}
-        >
-          <AccordionSummaryWrapper
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="frutas-content"
-            id="frutas-header"
-          >
-            <Heading>Frutas</Heading>
-          </AccordionSummaryWrapper>
-          <AccordionDetails>
-            <ListWrapper>
-              {foods.frutas.map((food, index) => (
-                <ListItemWrapper key={index}>
-                  <ListItemComponent {...food} />
-                </ListItemWrapper>
-              ))}
-            </ListWrapper>
-          </AccordionDetails>
-        </AccordionWrapper>
-      </ContainerPreferencias>
+      <UserData img="https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=" />
+      <AlimentosPreferencias food={food} />
     </BaseLayout>
   );
 };

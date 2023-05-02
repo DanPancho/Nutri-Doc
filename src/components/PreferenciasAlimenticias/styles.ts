@@ -14,6 +14,10 @@ export const BaseLayout = styled.div`
   background-size: 400% 400%;
   height: 100vh;
   background-position: 30%;
+  @media (max-width: 1329px) {
+    flex-direction: column;
+    height: auto;
+  }
 `;
 
 export const fadeInDown = keyframes`
@@ -67,6 +71,8 @@ export const Heading = styled(Typography)`
 
 export const ListWrapper = styled.div`
   padding: 1rem;
+  height: 45vh;
+  overflow-y: auto;
 `;
 
 export const ListItemWrapper = styled(ListItem)`
@@ -75,17 +81,30 @@ export const ListItemWrapper = styled(ListItem)`
   padding: 0.5rem 0;
 `;
 
-export const ContainerPreferencias = styled.div`
+export const ContainerPreferencias = styled.div<{
+  margin?: string;
+}>`
   display: flex;
-  flex-direction: column;
-  padding: 2rem;
+  justify-content: center;
+  animation: ${slide_in} 0.5s ease-in-out;
+  padding-top: 2rem;
   background-color: #fff;
   border-radius: 10px;
   height: 80vh;
-  width: 80%;
-  margin-right: 5%;
+  width: 50%;
+  @media (max-width: 1329px) {
+    width: 100%;
+    margin-top: ${(props) => (props.margin !== undefined ? props.margin : "0")};
+  }
 `;
 
+export const FlexContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  @media (max-width: 1329px) {
+    display: none;
+  }
+`;
 export const ContainerUserData = styled.div`
   display: flex;
   flex-direction: column;
@@ -102,6 +121,14 @@ export const ContainerUserData = styled.div`
   backdrop-filter: blur(0px);
   -webkit-backdrop-filter: blur(0px);
   border: 1px solid rgba(156, 154, 154, 0.59);
+  @media (max-width: 1329px) {
+    width: 100%;
+    margin: 0;
+    height: auto;
+    & img {
+      display: none;
+    }
+  }
 `;
 
 export const NameUser = styled.h2`

@@ -16,7 +16,6 @@ const ListItemComponent = (props: any) => {
           <Description>{description}</Description>
         </ContainerDescription>
         <Image src={imgsrc} height={150} width={300} alt="img-fruta" />
-        <Switch />
       </Container>
       <hr />
     </>

@@ -28,7 +28,7 @@ export const useInicioSesion = () => {
         if(user?.emailVerified) {
           setEmail(values.email);
          await ModalSweet('!Bienvenido!', 'success');
-         rouer.push('/home')
+         rouer.push('/preferencias-alimenticias')
         }else { 
           ModalSweet('Verifica tu correo electrónico', 'error');
         }
