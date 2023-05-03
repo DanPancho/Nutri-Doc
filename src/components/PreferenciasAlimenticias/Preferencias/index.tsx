@@ -1,4 +1,4 @@
-import { BottomNavigationAction, Grid, Switch } from "@mui/material";
+import { BottomNavigationAction, Grid } from "@mui/material";
 import React, { useRef, useState } from "react";
 import { ContainerPreferencias, Heading } from "../styles";
 import { IFoods } from "@/interfaces/food/food";
@@ -15,8 +15,9 @@ import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import { useRouter } from "next/router";
 import { Title } from "@/components/ListItem/styles";
+import SwitchComponent from "@/components/Switch";
 
-const AlimentosPreferencias = ({ food }: { food: IFoods }) => {
+const AlimentosPreferencias = ({ food }: { food: IFoods | undefined }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [value, setvalue] = useState(0);
   const router = useRouter();
@@ -38,8 +39,8 @@ const AlimentosPreferencias = ({ food }: { food: IFoods }) => {
           <Title>Preferencias Alimenticas</Title>
         )}
         <List style={{ flex: 1, overflowY: "scroll" }}>
-          <Heading>{food.content[value].title}</Heading>
-          {food.content[value].foods.map((item) => (
+          <Heading>{food?.content[value].title}</Heading>
+          {food?.content[value].foods.map((item) => (
             <ListItem button key={item.name}>
               <ListItemAvatar>
                 <Avatar
@@ -49,7 +50,7 @@ const AlimentosPreferencias = ({ food }: { food: IFoods }) => {
               </ListItemAvatar>
               <ListItemText primary={item.name} secondary={item.description} />
               {router.pathname === "/preferencias-alimenticias" ? (
-                <Switch checked={true} />
+                <SwitchComponent />
               ) : (
                 <></>
               )}
