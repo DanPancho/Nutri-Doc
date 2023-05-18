@@ -1,6 +1,7 @@
 import ModalSweet from "@/components/modals";
 import AuthContext from "@/contexts/authContext";
 import { CrudService } from "@/services/crud";
+import { encryptUID } from "@/utils/encryption/encryptions";
 import {
   GoogleAuthProvider,
   signInWithPopup,
@@ -36,6 +37,8 @@ export const useInicioSesion = () => {
           if (user?.emailVerified) {
             setEmail(values.email);
             await ModalSweet("!Bienvenido!", "success");
+            const encryptedUID = encryptUID(user.uid);
+            localStorage.setItem('UDEN', encryptedUID);
             rouer.push("/preferencias-alimenticias");
           } else {
             ModalSweet("Verifica tu correo electrónico", "error");

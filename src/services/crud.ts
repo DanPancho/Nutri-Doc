@@ -3,8 +3,10 @@ import { useCollectionData as UseCollectionData } from "react-firebase-hooks/fir
 import {
   addDoc,
   collection,
+  doc,
   getDocs,
   query,
+  setDoc,
   where,
   WhereFilterOp,
 } from "firebase/firestore";
@@ -33,6 +35,7 @@ export const CrudService = () => {
     operacion: WhereFilterOp,
     data: any
   ) => {
+    if(data === undefined) return;
     const q = query(
       collection(db, nameCollecion),
       where(parameter, operacion, data)
@@ -41,10 +44,28 @@ export const CrudService = () => {
     return result;
   };
 
-  const getCurrentUserUid = async (): Promise<string | undefined> => {
+  const getCurrentUserUid =  (): string | undefined => {
     const auth = getAuth();
     const user = auth.currentUser;
     return user ? user.uid : undefined;
+  };
+
+  const getDoc = async (
+    nameCollection: string,
+    parameter: string,
+    operacion: WhereFilterOp,
+    data: any
+  ) => {
+    const creationQuery = query(
+      collection(db, nameCollection),
+      where(parameter, operacion, data)
+    );
+    return await getDocs(creationQuery);
+  };
+
+  const update = async (nameCollecion: string, idDoc: string, data: any) => {
+    const docRef = doc(db, nameCollecion, idDoc);
+    return await setDoc(docRef, data, { merge: true });
   };
 
   return {
@@ -52,5 +73,7 @@ export const CrudService = () => {
     getAll,
     getById,
     getCurrentUserUid,
+    getDoc,
+    update
   };
 };

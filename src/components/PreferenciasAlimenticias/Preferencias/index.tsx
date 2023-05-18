@@ -1,7 +1,7 @@
 import { BottomNavigationAction, Grid } from "@mui/material";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ContainerPreferencias, Heading } from "../styles";
-import { IFoods } from "@/interfaces/food/food";
+import {IFoods, ITypefood } from "@/interfaces/food/food";
 import { Box } from "@mui/system";
 import RestoreIcon from "@mui/icons-material/Restore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -17,11 +17,11 @@ import { useRouter } from "next/router";
 import { Title } from "@/components/ListItem/styles";
 import SwitchComponent from "@/components/Switch";
 
-const AlimentosPreferencias = ({ food }: { food: IFoods | undefined }) => {
+const AlimentosPreferencias = ({ food, config }: { food: IFoods | undefined , config?: ITypefood[] | undefined}) => {
   const ref = useRef<HTMLDivElement>(null);
   const [value, setvalue] = useState(0);
   const router = useRouter();
-  const margin = router.pathname === "/home" ? "4em" : "0";
+  const margin = router.pathname === "/home" ? "4em" : "0";   
   return (
     <ContainerPreferencias margin={margin}>
       <Box
@@ -40,7 +40,7 @@ const AlimentosPreferencias = ({ food }: { food: IFoods | undefined }) => {
         )}
         <List style={{ flex: 1, overflowY: "scroll" }}>
           <Heading>{food?.content[value].title}</Heading>
-          {food?.content[value].foods.map((item) => (
+          {food?.content[value].foods.map((item, index) => (
             <ListItem button key={item.name}>
               <ListItemAvatar>
                 <Avatar
@@ -50,7 +50,7 @@ const AlimentosPreferencias = ({ food }: { food: IFoods | undefined }) => {
               </ListItemAvatar>
               <ListItemText primary={item.name} secondary={item.description} />
               {router.pathname === "/preferencias-alimenticias" ? (
-                <SwitchComponent />
+                <SwitchComponent opcion={value} index={index} config={config} />
               ) : (
                 <></>
               )}

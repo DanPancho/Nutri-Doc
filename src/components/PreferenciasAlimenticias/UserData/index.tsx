@@ -1,7 +1,9 @@
 import { ButtonMUI } from "@/components/Inicio Sesion/styles";
+import ModalSweet from "@/components/modals";
+import { ITypefood } from "@/interfaces/food/food";
 import { CrudService } from "@/services/crud";
 import { Avatar } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import {
   AnimationBase,
   ContainerUserData,
@@ -10,9 +12,32 @@ import {
   NameUser,
 } from "../styles";
 
-const UserData = ({ uid }: { uid: string | undefined }) => {
-  const { getById } = CrudService();
+const UserData = ({
+  uid,
+  config,
+}: {
+  uid: string | undefined;
+  config?: ITypefood[] | undefined;
+}) => {
+  const { getById, getDoc, update } = CrudService();
+  const [loading, setLoading] = useState(false);
   const user: any = getById("users", "userID", "==", uid);
+  const handleSubmitConfig = async () => {
+    const idDoc = (await getDoc("users", "userID", "==", uid)).docs[0].id;
+    setLoading(true);
+    if (idDoc) {
+      update("users", idDoc, { preferencia_alimentos: config, config: false })
+        .then(() => {
+          ModalSweet("Preferencias alimentarias actualizadas", "success");
+        })
+        .catch(() => {
+          ModalSweet(
+            "No se pudo actualizar sus preferencias alimentarias",
+            "error"
+          );
+        });
+    }
+  };
   return (
     <>
       {user?.length ? (
@@ -27,17 +52,23 @@ const UserData = ({ uid }: { uid: string | undefined }) => {
                 }}
               />
             </FlexContainer>
-            <NameUser>{user[0].userName === null ? user[0].userMail.split('@')[0] :  user[0].userName }</NameUser>
+            <NameUser>
+              {user[0].userName === null
+                ? user[0].userMail.split("@")[0]
+                : user[0].userName}
+            </NameUser>
             <EmailUser>{user[0].userMail}</EmailUser>
-            <ButtonMUI variant="contained">
+            <ButtonMUI
+              variant="contained"
+              onClick={handleSubmitConfig}
+              disabled={loading}
+            >
               <strong>Guardar Configuración</strong>
             </ButtonMUI>
           </AnimationBase>
         </ContainerUserData>
       ) : (
-        <ContainerUserData>
-          CARGANDO...
-        </ContainerUserData>
+        <ContainerUserData>CARGANDO...</ContainerUserData>
       )}
     </>
   );

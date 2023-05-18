@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BaseLayout } from "./styles";
 import UserData from "./UserData";
-import { IFoods } from "@/interfaces/food/food";
+import { IFoods, ITypefood } from "@/interfaces/food/food";
 import AlimentosPreferencias from "./Preferencias";
 import { CrudService } from "@/services/crud";
 import { useRouter } from "next/router";
+import Navbar from "@/components/NavBar";
+import { decryptUID } from "@/utils/encryption/encryptions";
 
 export const food: IFoods = {
   content: [
@@ -48,26 +50,68 @@ export const food: IFoods = {
 };
 
 const Preferencias: React.FC = () => {
-  const { getAll, getCurrentUserUid } = CrudService();
+  const { getAll, getById } = CrudService();
   const [data, setData] = useState<IFoods[]>();
-  const [userUID, setUID] = useState<string | undefined>("");
   const router = useRouter();
+  const storedEncryptedUID =
+    typeof window !== "undefined" && window.localStorage.getItem("UDEN");
+  let userUID = "";
+  if (storedEncryptedUID !== null && storedEncryptedUID) {
+    userUID = decryptUID(storedEncryptedUID);
+  }
+  const user: any = getById("users", "userID", "==", userUID);
+
   useEffect(() => {
     const fetchData = async () => {
-      const data = await getAll("alimentos");
-      const user = await getCurrentUserUid();
-      if(!user)
-        router.push('/')
-      setUID(user);
-      setData(data);
+      const aux: IFoods[] = [];
+      if (user?.length) {
+        if (!user[0].config) {
+          aux.push({
+            content: {
+              ...user[0].preferencia_alimentos,
+            },
+          });
+          setData(aux);
+        } else {
+          const food = await getAll("alimentos");
+          const alimentosAux: ITypefood[] = [];
+          if (food) {
+            food.map((foodItem) => {
+              foodItem.content.map((item) => {
+                const foodsArray: any[] = [];
+                item.foods.map((foodItem) => {
+                  foodsArray.push({
+                    ...foodItem,
+                    status: true,
+                  });
+                });
+                alimentosAux.push({
+                  title: item.title,
+                  foods: foodsArray,
+                });
+              });
+            });
+            aux.push({
+              content: {
+                ...alimentosAux,
+              },
+            });
+            setData(aux);
+          }
+        }
+      }
     };
     fetchData();
-  }, []);
+  }, [user]);
 
   return (
     <BaseLayout>
-      <UserData uid={userUID} />
-      <AlimentosPreferencias food={data !== undefined ? data[0] : undefined} />
+      {user?.length && !user[0].config ? <Navbar /> : <></>}
+      <UserData uid={userUID} config={data ? data[0].content : undefined} />
+      <AlimentosPreferencias
+        food={data !== undefined ? data[0] : undefined}
+        config={data ? data[0].content : undefined}
+      />
     </BaseLayout>
   );
 };
