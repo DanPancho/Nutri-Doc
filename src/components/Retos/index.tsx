@@ -19,10 +19,6 @@ const RetosComponent = () => {
     fetchData();
   }, []);
 
-  Array.from(Object.values(retos ? retos : {}))[0].retos.map((item) => {
-    console.log(item.title);
-  });
-
   return (
     <ContainerRetos>
       <Title>Retos Alimenticios</Title>
