@@ -38,17 +38,20 @@ export const useInicioSesion = () => {
             setEmail(values.email);
             await ModalSweet("!Bienvenido!", "success");
             const encryptedUID = encryptUID(user.uid);
-            localStorage.setItem('UDEN', encryptedUID);
+            localStorage.setItem("UDEN", encryptedUID);
             rouer.push("/preferencias-alimenticias");
           } else {
-            ModalSweet("Verifica tu correo electrónico", "error");
+            await ModalSweet("Verifica tu correo electrónico", "error");
           }
         })
-        .catch(() => {
-          ModalSweet("Usuario no encontrado", "error");
+        .catch(async () => {
+          await ModalSweet("Usuario no encontrado", "error");
         });
     } catch (error) {
-      ModalSweet("!Error al iniciar sesión!", "error");
+      const modalAsync = async () => {
+        await ModalSweet("!Error al iniciar sesión!", "error");
+      };
+      modalAsync();
     }
   };
   const Register = async (values: IValueLogin) => {
@@ -70,7 +73,7 @@ export const useInicioSesion = () => {
                 preferencia_alimentos: [],
                 retoId: "",
                 retos: [],
-                config: true
+                config: true,
               },
               "users"
             );

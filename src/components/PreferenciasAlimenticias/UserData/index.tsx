@@ -29,14 +29,14 @@ const UserData = ({
     setLoading(true);
     if (idDoc) {
       update("users", idDoc, { preferencia_alimentos: config, config: false })
-        .then(() => {
-          ModalSweet("Preferencias alimentarias actualizadas", "success");
+        .then(async() => {
+          await ModalSweet("Preferencias alimentarias actualizadas", "success");
           setTimeout(() => {
             router.push("/home");
           }, 2000);
         })
-        .catch(() => {
-          ModalSweet(
+        .catch( async() => {
+          await ModalSweet(
             "No se pudo actualizar sus preferencias alimentarias",
             "error"
           );
