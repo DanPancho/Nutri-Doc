@@ -3,6 +3,7 @@ import ModalSweet from "@/components/modals";
 import { ITypefood } from "@/interfaces/food/food";
 import { CrudService } from "@/services/crud";
 import { Avatar } from "@mui/material";
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import {
   AnimationBase,
@@ -22,6 +23,7 @@ const UserData = ({
   const { getById, getDoc, update } = CrudService();
   const [loading, setLoading] = useState(false);
   const user: any = getById("users", "userID", "==", uid);
+  const router = useRouter();
   const handleSubmitConfig = async () => {
     const idDoc = (await getDoc("users", "userID", "==", uid)).docs[0].id;
     setLoading(true);
@@ -29,6 +31,9 @@ const UserData = ({
       update("users", idDoc, { preferencia_alimentos: config, config: false })
         .then(() => {
           ModalSweet("Preferencias alimentarias actualizadas", "success");
+          setTimeout(() => {
+            router.push("/home");
+          }, 2000);
         })
         .catch(() => {
           ModalSweet(

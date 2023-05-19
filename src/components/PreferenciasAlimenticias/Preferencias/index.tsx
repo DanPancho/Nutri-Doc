@@ -1,5 +1,5 @@
 import { BottomNavigationAction, Grid } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { ContainerPreferencias, Heading } from "../styles";
 import {IFoods, ITypefood } from "@/interfaces/food/food";
 import { Box } from "@mui/system";

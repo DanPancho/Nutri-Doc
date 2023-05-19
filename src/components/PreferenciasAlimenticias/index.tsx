@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BaseLayout } from "./styles";
 import UserData from "./UserData";
 import { IFoods, ITypefood } from "@/interfaces/food/food";
 import AlimentosPreferencias from "./Preferencias";
 import { CrudService } from "@/services/crud";
-import { useRouter } from "next/router";
 import Navbar from "@/components/NavBar";
 import { decryptUID } from "@/utils/encryption/encryptions";
 
@@ -52,7 +51,6 @@ export const food: IFoods = {
 const Preferencias: React.FC = () => {
   const { getAll, getById } = CrudService();
   const [data, setData] = useState<IFoods[]>();
-  const router = useRouter();
   const storedEncryptedUID =
     typeof window !== "undefined" && window.localStorage.getItem("UDEN");
   let userUID = "";

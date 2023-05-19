@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { getAuth } from "firebase/auth";
+import { IRetos } from "@/interfaces/retos/retos";
 
 export const CrudService = () => {
   const create = async (data: any, collectionName: string) => {
@@ -28,6 +29,19 @@ export const CrudService = () => {
     );
     return data;
   };
+
+
+  const getAllRetos = async (collectionName: string): Promise<IRetos[]> => {
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const data = querySnapshot.docs.map(
+      (doc) =>
+        ({
+          ...doc.data(),
+        } as IRetos)
+    );
+    return data;
+  };
+
 
   const getById = (
     nameCollecion: string,
@@ -74,6 +88,7 @@ export const CrudService = () => {
     getById,
     getCurrentUserUid,
     getDoc,
-    update
+    update,
+    getAllRetos
   };
 };

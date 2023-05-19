@@ -3,6 +3,10 @@ export interface IReto{
     description: string;
 }
 
+export interface IRetos {
+    retos: IReto[]
+}
+
 export interface IDia {
     diaNum: string;
     alimentacion: IAlimentacion[],
