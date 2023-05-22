@@ -76,7 +76,7 @@ const RetoComponent = () => {
         retoId: "",
       })
         .then(async () => {
-          ModalSweet("Dieta Completada, Felicitaciones :)", "success");
+          await ModalSweet("Dieta Completada, Felicitaciones :)", "success");
           router.push("/home");
         })
         .catch(async (e) => {

@@ -25,7 +25,7 @@ export const useInicioSesion = () => {
     try {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
-      getByIdNoHook("users", "userID", "==", user.uid).then(async (data) => {
+      await getByIdNoHook("users", "userID", "==", user.uid).then(async (data) => {
         if (data === undefined) {
           await ModalSweet("Usuario no registrado", "error");
         } else {
@@ -47,7 +47,7 @@ export const useInicioSesion = () => {
     try {
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
-      getByIdNoHook("users", "userID", "==", user.uid).then(async (data) => {
+      await getByIdNoHook("users", "userID", "==", user.uid).then(async (data) => {
         if (data === undefined) {
           if (user) {
             await create(
@@ -84,7 +84,7 @@ export const useInicioSesion = () => {
             setEmail(values.email);
             const encryptedUID = encryptUID(user.uid);
             localStorage.setItem("UDEN", encryptedUID);
-            getByIdNoHook("users", "userID", "==", user.uid).then((data) => {
+            await getByIdNoHook("users", "userID", "==", user.uid).then((data) => {
               if (data.config) {
                 rouer.push("/preferencias-alimenticias");
               } else {
