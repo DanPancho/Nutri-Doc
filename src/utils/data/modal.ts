@@ -1,5 +1,4 @@
-import { SweetAlertIcon, SweetAlertOptions, SweetAlertPosition } from "sweetalert2";
-import Swal from "sweetalert2";
+import Swal , { SweetAlertIcon, SweetAlertOptions, SweetAlertPosition } from "sweetalert2";
 
 export const ModalData = (
   message: string,

@@ -18,17 +18,19 @@ import Avatar from "@mui/material/Avatar";
 import { useRouter } from "next/router";
 import { Title } from "@/components/ListItem/styles";
 import SwitchComponent from "@/components/Switch";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAppleWhole } from '@fortawesome/free-solid-svg-icons';
-import { faCarrot } from '@fortawesome/free-solid-svg-icons';
-import { faDrumstickBite } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAppleWhole,
+  faDrumstickBite,
+  faCarrot,
+} from "@fortawesome/free-solid-svg-icons";
 
 const AlimentosPreferencias = ({
   food,
   config,
 }: {
   food: IFoods | undefined;
-  config?: ITypefood[] | undefined;
+  config?: ITypefood[];
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [value, setvalue] = useState(0);
@@ -50,10 +52,17 @@ const AlimentosPreferencias = ({
         ) : (
           <>
             <Title>Preferencias Alimenticas</Title>
-            <Container sx={{background: "#f4c732", padding: "0.5em", borderRadius: '10px', marginBottom: '0.5em'}}>
+            <Container
+              sx={{
+                background: "#f4c732",
+                padding: "0.5em",
+                borderRadius: "10px",
+                marginBottom: "0.5em",
+              }}
+            >
               <Typography>
-                <strong>Nota: </strong> recuerda solo desactivar los alimentos a los que seas
-                alérgico o tengas intolerancia.
+                <strong>Nota: </strong> recuerda solo desactivar los alimentos a
+                los que seas alérgico o tengas intolerancia.
               </Typography>
             </Container>
           </>
@@ -82,17 +91,19 @@ const AlimentosPreferencias = ({
             <BottomNavigation showLabels value={value}>
               <BottomNavigationAction
                 label="Frutas"
-                icon={<FontAwesomeIcon icon={faAppleWhole} fontSize={'2em'}/>}
+                icon={<FontAwesomeIcon icon={faAppleWhole} fontSize={"2em"} />}
                 onClick={() => setvalue(0)}
               />
               <BottomNavigationAction
                 label="Verduras"
-                icon={<FontAwesomeIcon icon={faCarrot} fontSize={'2em'}/>}
+                icon={<FontAwesomeIcon icon={faCarrot} fontSize={"2em"} />}
                 onClick={() => setvalue(1)}
               />
               <BottomNavigationAction
                 label="Carnes"
-                icon={<FontAwesomeIcon icon={faDrumstickBite} fontSize={'2em'}/>}
+                icon={
+                  <FontAwesomeIcon icon={faDrumstickBite} fontSize={"2em"} />
+                }
                 onClick={() => setvalue(2)}
               />
             </BottomNavigation>

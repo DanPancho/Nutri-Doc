@@ -12,7 +12,7 @@ import Navbar from "@/components/NavBar";
 import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt";
 import { decryptUID } from "@/utils/encryption/encryptions";
 import { CrudService } from "@/services/crud";
-import { IDiasReto, IRetos } from "@/interfaces/retos/retos";
+import { IDiasReto } from "@/interfaces/retos/retos";
 import { Typography } from "@mui/material";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 

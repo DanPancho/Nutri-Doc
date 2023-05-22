@@ -1,7 +1,6 @@
 import { IRetos } from "@/interfaces/retos/retos";
 import { CrudService } from "@/services/crud";
 import { decryptUID } from "@/utils/encryption/encryptions";
-import { async } from "@firebase/util";
 import { ListItemText } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { useRouter } from "next/router";

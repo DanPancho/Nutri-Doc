@@ -17,16 +17,13 @@ import HighlightOffTwoToneIcon from "@mui/icons-material/HighlightOffTwoTone";
 import Navbar from "@/components/NavBar";
 import { decryptUID } from "@/utils/encryption/encryptions";
 import { CrudService } from "@/services/crud";
-import { IFoods } from "@/interfaces/food/food";
 import { IDiaReto, IDiasReto } from "@/interfaces/retos/retos";
 import ModalSweet from "../modals";
 import { useRouter } from "next/router";
 
 const RetoComponent = () => {
   const { getById, getDoc, update } = CrudService();
-  //const [preferencias, setPreferencias] = useState<IFoods[]>();
   const [retoActivo, setRetoActivo] = useState<IDiaReto | undefined>();
-  //const [dias, setDias] = useState<number>();
   const router = useRouter();
   const [index, setIndex] = useState<number>(0);
   const [loading, setLoading] = useState(false);
@@ -51,8 +48,6 @@ const RetoComponent = () => {
         )
       );
       setRetoActivo(aux2);
-      // setPreferencias(user[0].preferencia_alimentos);
-      // setDias(Array.from(Object.values(aux))[0]?.dias?.length);
     }
   }, [user]);
   const changeSatusDay = async (status: number) => {
@@ -102,16 +97,6 @@ const RetoComponent = () => {
           <ContainerTitle>
             <TitleDay>Día {index + 1}</TitleDay>
             <div style={{ display: "flex", justifyContent: "center" }}>
-              {/* {index !== 0 ? (
-                <IconButton aria-label="check-day">
-                  <ArrowCircleLeftTwoToneIcon
-                    sx={{ fontSize: "3em", color: "#00ACC1" }}
-                  />
-                </IconButton>
-              ) : (
-                <></>
-              )} */}
-
               <IconButton
                 aria-label="check-day"
                 onClick={() => changeSatusDay(1)}
@@ -130,15 +115,6 @@ const RetoComponent = () => {
                   sx={{ fontSize: "3em", color: "#FF5722" }}
                 />
               </IconButton>
-              {/* {dias === index ? (
-                <></>
-              ) : (
-                <IconButton aria-label="check-day">
-                  <ArrowCircleRightTwoToneIcon
-                    sx={{ fontSize: "3em", color: "#00ACC1" }}
-                  />
-                </IconButton>
-              )} */}
             </div>
           </ContainerTitle>
           <ContainerAlimentos>

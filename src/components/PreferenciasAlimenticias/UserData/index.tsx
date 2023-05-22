@@ -18,7 +18,7 @@ const UserData = ({
   config,
 }: {
   uid: string | undefined;
-  config?: ITypefood[] | undefined;
+  config?: ITypefood[];
 }) => {
   const { getById, getDoc, update } = CrudService();
   const [loading, setLoading] = useState(false);
