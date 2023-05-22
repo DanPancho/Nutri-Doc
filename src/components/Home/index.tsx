@@ -56,8 +56,7 @@ const HomeComponent = () => {
       }
     }
   }, [user]);
-  console.log(data);
-  
+
   return (
     <BaseLayout>
       <SpeedDial

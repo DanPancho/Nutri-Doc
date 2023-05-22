@@ -1,4 +1,4 @@
-import { IRetos } from "@/interfaces/retos/retos";
+import { IDiasReto, IRetos } from "@/interfaces/retos/retos";
 import { CrudService } from "@/services/crud";
 import { decryptUID } from "@/utils/encryption/encryptions";
 import { ListItemText } from "@mui/material";
@@ -15,7 +15,7 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
   const [retos, setRetos] = useState<IRetos[] | undefined>();
   const [loading, setLoading] = useState(false);
   const { update, getDoc, getByIdNoHook, getById } = CrudService();
-  const router = useRouter();  
+  const router = useRouter();
   const storedEncryptedUID =
     typeof window !== "undefined" && window.localStorage.getItem("UDEN");
   let userUID = "";
@@ -39,8 +39,8 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
       setLoading(true);
       const idDoc = (await getDoc("users", "userID", "==", userUID)).docs[0].id;
       const reto: any = await getByIdNoHook("dietas", "idReto", "==", idReto);
-      if(user){
-        const retosUser: any[]= user[0].retos;
+      if (user) {
+        const retosUser: any[] = user[0].retos;
         retosUser.push(reto);
         update("users", idDoc, { retoId: idReto, retos: retosUser })
           .then(async () => {
@@ -56,7 +56,35 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
   };
 
   const handleContinue = (idReto: string) => {
-    router.push(`reto/${idReto}`)
+    router.push(`reto/${idReto}`);
+  };
+
+  const cancelReto = async () => {
+    if (user) {
+      const newUser = Array.from(Object.values(user)).map((userData: any) => {
+        const retos = userData?.retos?.map((reto: IDiasReto) => {
+          if (reto.retoStatus === 0) {
+            reto.retoStatus = 2;
+          }
+          return reto;
+        });
+        return { ...userData, retos: retos };
+      });
+      const idDoc = (await getDoc("users", "userID", "==", userUID)).docs[0].id;
+      if(idDoc){
+        update("users", idDoc, {retos: newUser[0].retos, retoId: ''})
+          .then(async () => {
+            await ModalSweet("Reto Cancelado", "info");
+            setLoading(false);
+          })
+          .catch(async (e) => {
+            await ModalSweet("Error", "error");
+            setLoading(false);
+            console.log(e);
+            
+          });
+      }
+    }
   };
 
   return (
@@ -72,13 +100,26 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
               <Heading marginBottom={1}>{item.title}</Heading>
               <ListItemText secondary={item.description} />
               {userRetoID === item.title ? (
-                <ButtonMUI
-                  variant="contained"
-                  onClick={() => {handleContinue(item.title)}}
-                  disabled={loading}
-                >
-                  Continuar con el Reto
-                </ButtonMUI>
+                <>
+                  <ButtonMUI
+                    variant="contained"
+                    onClick={() => {
+                      handleContinue(item.title);
+                    }}
+                    disabled={loading}
+                  >
+                    Continuar con el Reto
+                  </ButtonMUI>
+                  <ButtonMUI
+                    variant="contained"
+                    onClick={cancelReto}
+                    disabled={loading}
+                    color={"error"}
+                    colorbg={"#b43649"}
+                  >
+                    Cancelar el reto
+                  </ButtonMUI>
+                </>
               ) : (
                 <ButtonMUI
                   variant="contained"

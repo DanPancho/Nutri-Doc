@@ -35,5 +35,5 @@ export interface IDiaReto {
 export interface IDiasReto {
   idReto: string;
   dias: IDiaReto[];
-  retoStatus: boolean;
+  retoStatus: number;
 }

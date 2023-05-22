@@ -38,7 +38,7 @@ const RetoComponent = () => {
   useEffect(() => {
     if (user !== undefined) {
       const aux: IDiasReto[] = user[0].retos;
-      const indexReto = Array.from(Object.values(aux))?.findIndex((item) => item.retoStatus === false);
+      const indexReto = Array.from(Object.values(aux))?.findIndex((item) => item.retoStatus === 0);
       const aux2: IDiaReto | undefined = Array.from(Object.values(aux))[
         indexReto
       ]?.dias?.find((item: any) => item.statusDay === 0);
@@ -56,11 +56,11 @@ const RetoComponent = () => {
     let aux: IDiasReto[] = user[0].retos;
     let finalDay: boolean = false;
     aux = aux.map((item) => {
-      if (item.retoStatus === false) {
+      if (item.retoStatus === 0) {
         item.dias[index].statusDay = status;
         if (item.dias.length === index + 1) {
           finalDay = true;
-          item.retoStatus = true;
+          item.retoStatus = 1;
         }
       }
       return item;

@@ -86,10 +86,14 @@ export default function Misretos() {
                     <Typography>{row.idReto}</Typography>
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {!row.retoStatus ? (
+                    {row.retoStatus === 0 && (
                       <Typography color={"#009929"}>En Curso</Typography>
-                    ) : (
+                    )}
+                    {row.retoStatus === 1 && (
                       <Typography color={"#e80729"}>Terminado</Typography>
+                    )}
+                    {row.retoStatus === 2 && (
+                      <Typography color={"#e80729"}>Cancelado</Typography>
                     )}
                   </StyledTableCell>
                   <StyledTableCell align="center">
