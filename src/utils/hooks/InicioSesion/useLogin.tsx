@@ -19,27 +19,79 @@ interface IValueLogin {
 }
 export const useInicioSesion = () => {
   const { setEmail } = useContext(AuthContext);
-  const { create } = CrudService();
+  const { create, getByIdNoHook } = CrudService();
   const rouer = useRouter();
   const useGoogle = async () => {
     try {
       const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-      await ModalSweet("!Bienvenido!", "success");
+      const { user } = await signInWithPopup(auth, provider);
+      getByIdNoHook("users", "userID", "==", user.uid).then(async (data) => {
+        if (data === undefined) {
+          await ModalSweet("Usuario no registrado", "error");
+        } else {
+          if (data.config) {
+            rouer.push("/preferencias-alimenticias");
+          } else {
+            rouer.push("/home");
+          }
+          const encryptedUID = encryptUID(user.uid);
+          localStorage.setItem("UDEN", encryptedUID);
+          await ModalSweet("!Bienvenido!", "success");
+        }
+      });
+    } catch (error) {
+      await ModalSweet("!Error al iniciar sesión!", "error");
+    }
+  };
+  const useGoogleRegister = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const { user } = await signInWithPopup(auth, provider);
+      getByIdNoHook("users", "userID", "==", user.uid).then(async (data) => {
+        if (data === undefined) {
+          if (user) {
+            await create(
+              {
+                userID: user.uid,
+                userName: user.displayName,
+                userImg: user?.photoURL
+                  ? user.photoURL
+                  : "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
+                userMail: user.email,
+                preferencia_alimentos: [],
+                retoId: "",
+                retos: [],
+                config: true,
+              },
+              "users"
+            );
+            await ModalSweet("Usuario Registrado", "success");
+          }
+        } else {
+          await ModalSweet("Usuario ya registrado", "error");
+        }
+      });
     } catch (error) {
       await ModalSweet("!Error al iniciar sesión!", "error");
     }
   };
   const LoginEmail = (values: IValueLogin) => {
+    const { getByIdNoHook } = CrudService();
     try {
       signInWithEmailAndPassword(auth, values.email, values.password)
         .then(async ({ user }) => {
           if (user?.emailVerified) {
             setEmail(values.email);
-            await ModalSweet("!Bienvenido!", "success");
             const encryptedUID = encryptUID(user.uid);
             localStorage.setItem("UDEN", encryptedUID);
-            rouer.push("/preferencias-alimenticias");
+            getByIdNoHook("users", "userID", "==", user.uid).then((data) => {
+              if (data.config) {
+                rouer.push("/preferencias-alimenticias");
+              } else {
+                rouer.push("/home");
+              }
+            });
+            await ModalSweet("!Bienvenido!", "success");
           } else {
             await ModalSweet("Verifica tu correo electrónico", "error");
           }
@@ -95,5 +147,6 @@ export const useInicioSesion = () => {
     useGoogle,
     LoginEmail,
     Register,
+    useGoogleRegister,
   };
 };

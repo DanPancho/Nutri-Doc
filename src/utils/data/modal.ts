@@ -1,4 +1,5 @@
 import { SweetAlertIcon, SweetAlertOptions, SweetAlertPosition } from "sweetalert2";
+import Swal from "sweetalert2";
 
 export const ModalData = (
   message: string,
@@ -11,6 +12,11 @@ export const ModalData = (
     icon: icon,
     title: message,
     showConfirmButton: showConfirmButton,
-    timer: 1500,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.addEventListener("mouseenter", Swal.stopTimer);
+      toast.addEventListener("mouseleave", Swal.resumeTimer);
+    },
   };
 };

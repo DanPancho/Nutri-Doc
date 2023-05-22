@@ -27,11 +27,13 @@ const HomeComponent = () => {
     userUID = decryptUID(storedEncryptedUID);
   }
   const user: any = getById("users", "userID", "==", userUID);
+  const [userRetoID, setRetoID] = useState('');
 
   useEffect(() => {
     const auxFood: IFoods[] = [];
     const auxFoodActive: ITypefood[] = [];
     if (user?.length) {
+      setRetoID(user[0].retoId);
       if (!user[0].config) {
         auxFood.push({
           content: {
@@ -54,6 +56,8 @@ const HomeComponent = () => {
       }
     }
   }, [user]);
+  console.log(data);
+  
   return (
     <BaseLayout>
       <SpeedDial
@@ -76,7 +80,7 @@ const HomeComponent = () => {
       <>
         <AlimentosPreferencias food={data ? data[0] : undefined} />
         <hr />
-        <RetosComponent />
+        <RetosComponent userRetoID={userRetoID}/>
       </>
     </BaseLayout>
   );

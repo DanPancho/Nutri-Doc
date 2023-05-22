@@ -6,10 +6,10 @@ interface IItemsBar {
 export const navItems: IItemsBar[] = [
     {
         name: "Home",
-        src: "/"
+        src: "/home"
     },
     {
         name: "Mis retos",
-        src: "/"
+        src: "/mis-retos"
     }
 ]

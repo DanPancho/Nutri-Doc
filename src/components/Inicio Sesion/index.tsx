@@ -16,7 +16,7 @@ import FormRegister from "@/utils/components/forms/Formregister";
 import FormLogin from "@/utils/components/forms/Formlogin";
 
 const InicioSesionComponent = () => {
-  const { useGoogle } = useInicioSesion();
+  const { useGoogle , useGoogleRegister} = useInicioSesion();
   const [register, setRegister] = useState(false);
 
   return (
@@ -38,7 +38,26 @@ const InicioSesionComponent = () => {
             {
               register ? <FormRegister /> : <FormLogin />
             }
+            {
+              register ? 
             <Componentflex>
+              <ButtonSocialesMUI
+                variant="contained"
+                type="submit"
+                style={{ marginRight: "20px" }}
+                colorbg="#3b5998 "
+              >
+                <FacebookIcon />
+              </ButtonSocialesMUI>
+              <ButtonSocialesMUI
+                variant="contained"
+                type="submit"
+                colorbg="#FF0000"
+                onClick={useGoogleRegister}
+              >
+                <GoogleIcon />
+              </ButtonSocialesMUI>
+            </Componentflex> :        <Componentflex>
               <ButtonSocialesMUI
                 variant="contained"
                 type="submit"
@@ -55,7 +74,8 @@ const InicioSesionComponent = () => {
               >
                 <GoogleIcon />
               </ButtonSocialesMUI>
-            </Componentflex>
+            </Componentflex> 
+            }
             <Componentflex>
               {register ? (
                 <p style={{ marginTop: "15px", paddingBottom: "20px" }}>

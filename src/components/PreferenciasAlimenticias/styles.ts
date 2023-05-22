@@ -20,6 +20,7 @@ export const BaseLayout = styled.div`
   }
 `;
 
+
 export const fadeInDown = keyframes`
   from {
     opacity: 0;

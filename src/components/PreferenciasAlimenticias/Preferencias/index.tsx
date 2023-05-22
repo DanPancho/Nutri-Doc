@@ -1,11 +1,13 @@
-import { BottomNavigationAction, Grid } from "@mui/material";
+import {
+  BottomNavigationAction,
+  Container,
+  Grid,
+  Typography,
+} from "@mui/material";
 import React, { useRef, useState } from "react";
 import { ContainerPreferencias, Heading } from "../styles";
-import {IFoods, ITypefood } from "@/interfaces/food/food";
+import { IFoods, ITypefood } from "@/interfaces/food/food";
 import { Box } from "@mui/system";
-import RestoreIcon from "@mui/icons-material/Restore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ArchiveIcon from "@mui/icons-material/Archive";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import Paper from "@mui/material/Paper";
 import List from "@mui/material/List";
@@ -16,12 +18,22 @@ import Avatar from "@mui/material/Avatar";
 import { useRouter } from "next/router";
 import { Title } from "@/components/ListItem/styles";
 import SwitchComponent from "@/components/Switch";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAppleWhole } from '@fortawesome/free-solid-svg-icons';
+import { faCarrot } from '@fortawesome/free-solid-svg-icons';
+import { faDrumstickBite } from '@fortawesome/free-solid-svg-icons';
 
-const AlimentosPreferencias = ({ food, config }: { food: IFoods | undefined , config?: ITypefood[] | undefined}) => {
+const AlimentosPreferencias = ({
+  food,
+  config,
+}: {
+  food: IFoods | undefined;
+  config?: ITypefood[] | undefined;
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const [value, setvalue] = useState(0);
   const router = useRouter();
-  const margin = router.pathname === "/home" ? "4em" : "0";   
+  const margin = router.pathname === "/home" ? "4em" : "0";
   return (
     <ContainerPreferencias margin={margin}>
       <Box
@@ -36,7 +48,15 @@ const AlimentosPreferencias = ({ food, config }: { food: IFoods | undefined , co
         {router.pathname === "/home" ? (
           <Title>Recomendaciones Alimenticas</Title>
         ) : (
-          <Title>Preferencias Alimenticas</Title>
+          <>
+            <Title>Preferencias Alimenticas</Title>
+            <Container sx={{background: "#f4c732", padding: "0.5em", borderRadius: '10px', marginBottom: '0.5em'}}>
+              <Typography>
+                <strong>Nota: </strong> recuerda solo desactivar los alimentos a los que seas
+                alérgico o tengas intolerancia.
+              </Typography>
+            </Container>
+          </>
         )}
         <List style={{ flex: 1, overflowY: "scroll" }}>
           <Heading>{food?.content[value].title}</Heading>
@@ -62,17 +82,17 @@ const AlimentosPreferencias = ({ food, config }: { food: IFoods | undefined , co
             <BottomNavigation showLabels value={value}>
               <BottomNavigationAction
                 label="Frutas"
-                icon={<RestoreIcon />}
+                icon={<FontAwesomeIcon icon={faAppleWhole} fontSize={'2em'}/>}
                 onClick={() => setvalue(0)}
               />
               <BottomNavigationAction
                 label="Verduras"
-                icon={<FavoriteIcon />}
+                icon={<FontAwesomeIcon icon={faCarrot} fontSize={'2em'}/>}
                 onClick={() => setvalue(1)}
               />
               <BottomNavigationAction
                 label="Carnes"
-                icon={<ArchiveIcon />}
+                icon={<FontAwesomeIcon icon={faDrumstickBite} fontSize={'2em'}/>}
                 onClick={() => setvalue(2)}
               />
             </BottomNavigation>

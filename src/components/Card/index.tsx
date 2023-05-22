@@ -10,7 +10,9 @@ import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { CardStyles } from "@/pages/reto/styles";
+import { CardStyles } from "../reto/styles";
+import { IPlatos } from "@/interfaces/retos/retos";
+import { Container } from "@mui/system";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -27,7 +29,13 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
   }),
 }));
 
-const CardRetos = () => {
+const CardRetos = ({
+  dataPlatos,
+  index,
+}: {
+  dataPlatos: IPlatos | undefined;
+  index: number;
+}) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
@@ -42,8 +50,8 @@ const CardRetos = () => {
             ND
           </Avatar>
         }
-        title="Tacos a la pastore"
-        subheader="Día 1"
+        title={dataPlatos?.name}
+        subheader={`Día ${index + 1}`}
       />
       <CardMedia
         component="img"
@@ -53,10 +61,7 @@ const CardRetos = () => {
       />
       <CardContent>
         <Typography variant="body2" color="text.secondary">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas
-          necessitatibus aliquid nisi perspiciatis aut nemo dolore eveniet
-          consequatur, odio, assumenda iste. Officiis modi quod, ipsam fugit nam
-          error natus ab.
+          {dataPlatos?.description}
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
@@ -78,23 +83,24 @@ const CardRetos = () => {
         <CardContent>
           <Typography>
             <ul>
-              <li>
-                <Typography variant="body2"  color="text.secondary">1 pizca de arroz</Typography>
-              </li>
-              <li>
-                <Typography variant="body2"  color="text.secondary">1 pizca de arroz</Typography>
-              </li>
-              <li>
-                <Typography variant="body2"  color="text.secondary">1 pizca de arroz</Typography>
-              </li>
-              <li>
-                <Typography variant="body2"  color="text.secondary">1 pizca de arroz</Typography>
-              </li>
-              <li>
-                <Typography variant="body2"  color="text.secondary">1 pizca de arroz</Typography>
-              </li>
+              {dataPlatos?.ingredientes.map((item) => (
+                <li key={item.tipo}>
+                  <Typography variant="body2" color="text.secondary">
+                    {item.tipo}
+                    <Typography variant="body2" color="text.secondary">
+                      {item.cantidad}
+                    </Typography>
+                  </Typography>
+                </li>
+              ))}
             </ul>
           </Typography>
+          <br />
+          <Container sx={{background: "#f4c732", padding: "0.3em", borderRadius: '10px'}}>
+            <Typography variant="body2" color="text.secondary">
+              <strong>Importante: </strong> Si eres alérgico o intolerante a alguno de estos alimentos, puedes buscar una alternativa en las recomendaciones alimenticias.
+            </Typography>
+          </Container>
         </CardContent>
       </Collapse>
     </CardStyles>

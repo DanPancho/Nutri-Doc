@@ -31,22 +31,38 @@ export default function DrawerAppBar(props: Props) {
     setMobileOpen((prevState) => !prevState);
   };
 
+  const handleCloseSession = () => {
+    localStorage.removeItem("UDEN");
+    router.push("/");
+  };
+
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        NUTRI DOC
+        NUTRI-DOC
       </Typography>
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item.name} disablePadding>
+          <ListItem
+            key={item.name}
+            disablePadding
+            onClick={() => {
+              router.push(`/${item.src}`);
+            }}
+          >
             <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText
-                primary={item.name}
-              />
+              <ListItemText primary={item.name} />
             </ListItemButton>
           </ListItem>
         ))}
+
+        <ListItemButton
+          sx={{ textAlign: "center" }}
+          onClick={handleCloseSession}
+        >
+          <ListItemText primary={"Cerrar Sesión"} />
+        </ListItemButton>
       </List>
     </Box>
   );
@@ -73,16 +89,22 @@ export default function DrawerAppBar(props: Props) {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            NUTRI DOC
+            NUTRI-DOC
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item ) => (
-              <Button key={item.name} sx={{ color: "#000" }} onClick={() => {router.push(`/${item.src}`)}}>
+            {navItems.map((item) => (
+              <Button
+                key={item.name}
+                sx={{ color: "#000" }}
+                onClick={() => {
+                  router.push(`/${item.src}`);
+                }}
+              >
                 {item.name}
               </Button>
             ))}
-            <Button sx={{ color: "#000" }}>
-                Cerrar Sesión
+            <Button sx={{ color: "#000" }} onClick={handleCloseSession}>
+              Cerrar Sesión
             </Button>
           </Box>
         </Toolbar>

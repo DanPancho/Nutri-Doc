@@ -6,6 +6,7 @@ import {
   doc,
   getDocs,
   query,
+  QuerySnapshot,
   setDoc,
   where,
   WhereFilterOp,
@@ -30,7 +31,6 @@ export const CrudService = () => {
     return data;
   };
 
-
   const getAllRetos = async (collectionName: string): Promise<IRetos[]> => {
     const querySnapshot = await getDocs(collection(db, collectionName));
     const data = querySnapshot.docs.map(
@@ -42,14 +42,13 @@ export const CrudService = () => {
     return data;
   };
 
-
   const getById = (
     nameCollecion: string,
     parameter: string,
     operacion: WhereFilterOp,
     data: any
   ) => {
-    if(data === undefined) return;
+    if (data === undefined) return;
     const q = query(
       collection(db, nameCollecion),
       where(parameter, operacion, data)
@@ -58,7 +57,23 @@ export const CrudService = () => {
     return result;
   };
 
-  const getCurrentUserUid =  (): string | undefined => {
+  const getByIdNoHook = async (
+    collectionName: string,
+    parameter: string,
+    operation: WhereFilterOp,
+    data: any
+  ): Promise<any> => {
+    if (data === undefined) return;
+
+    const querySnapshot: QuerySnapshot = await getDocs(
+      query(collection(db, collectionName), where(parameter, operation, data))
+    );
+    const result: any[] = querySnapshot.docs.map((doc) => doc.data());
+
+    return result[0];
+  };
+
+  const getCurrentUserUid = (): string | undefined => {
     const auth = getAuth();
     const user = auth.currentUser;
     return user ? user.uid : undefined;
@@ -89,6 +104,7 @@ export const CrudService = () => {
     getCurrentUserUid,
     getDoc,
     update,
-    getAllRetos
+    getAllRetos,
+    getByIdNoHook
   };
 };

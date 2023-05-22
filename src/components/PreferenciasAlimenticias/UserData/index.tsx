@@ -26,21 +26,44 @@ const UserData = ({
   const router = useRouter();
   const handleSubmitConfig = async () => {
     const idDoc = (await getDoc("users", "userID", "==", uid)).docs[0].id;
+    let validateConfig = false;
     setLoading(true);
     if (idDoc) {
-      update("users", idDoc, { preferencia_alimentos: config, config: false })
-        .then(async() => {
-          await ModalSweet("Preferencias alimentarias actualizadas", "success");
-          setTimeout(() => {
-            router.push("/home");
-          }, 2000);
-        })
-        .catch( async() => {
-          await ModalSweet(
-            "No se pudo actualizar sus preferencias alimentarias",
-            "error"
-          );
+      if (config) {
+        let aux = 0;
+        const resultMin = Array.from(Object.values(config)).length * 5;
+        Array.from(Object.values(config)).map((item) => {
+          if(item.foods.filter((food) => food.status).length >= 5){
+            aux += item.foods.filter((food) => food.status).length;
+          }
         });
+        if (aux >= resultMin) validateConfig = true;
+      }
+      if (validateConfig) {
+        update("users", idDoc, { preferencia_alimentos: config, config: false })
+          .then(async () => {
+            await ModalSweet(
+              "Preferencias alimentarias actualizadas",
+              "success"
+            );
+            setTimeout(() => {
+              router.push("/home");
+            }, 2000);
+          })
+          .catch(async () => {
+            await ModalSweet(
+              "No se pudo actualizar sus preferencias alimentarias",
+              "error"
+            );
+            setLoading(false);
+          });
+      } else {
+        await ModalSweet(
+          "Debe tener como minimo 5 alimentos activos por categoria",
+          "info"
+        );
+        setLoading(false);
+      }
     }
   };
   return (
