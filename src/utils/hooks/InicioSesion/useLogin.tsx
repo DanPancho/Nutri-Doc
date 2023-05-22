@@ -2,12 +2,15 @@ import ModalSweet from "@/components/modals";
 import AuthContext from "@/contexts/authContext";
 import { CrudService } from "@/services/crud";
 import { encryptUID } from "@/utils/encryption/encryptions";
+import { async } from "@firebase/util";
 import {
   GoogleAuthProvider,
+  FacebookAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
   sendEmailVerification,
   createUserWithEmailAndPassword,
+  User,
 } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useContext } from "react";
@@ -23,9 +26,34 @@ export const useInicioSesion = () => {
   const rouer = useRouter();
   const useGoogle = async () => {
     try {
+      //let user : User;
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
-      await getByIdNoHook("users", "userID", "==", user.uid).then(async (data) => {
+    } catch (error) {
+      await ModalSweet("!Error al iniciar sesión!", "error");
+    }
+  };
+  const useFacebook = async () => {
+    try {
+      const provider = new FacebookAuthProvider();
+      const { user } = await signInWithPopup(auth, provider);
+      await LoginHook(user);
+    } catch (error) {
+      await ModalSweet("!Error al iniciar sesión!", "error");
+    }
+  };
+  const useFacebookRegister = async () => {
+    try {
+      const provider = new FacebookAuthProvider();
+      const { user } = await signInWithPopup(auth, provider);
+      await registerHook(user);
+    } catch (error) {
+      await ModalSweet("!Error al iniciar sesión!", "error");
+    }
+  };
+  const LoginHook = async (user: User) => {
+    await getByIdNoHook("users", "userID", "==", user.uid).then(
+      async (data) => {
         if (data === undefined) {
           await ModalSweet("Usuario no registrado", "error");
         } else {
@@ -38,16 +66,13 @@ export const useInicioSesion = () => {
           localStorage.setItem("UDEN", encryptedUID);
           await ModalSweet("!Bienvenido!", "success");
         }
-      });
-    } catch (error) {
-      await ModalSweet("!Error al iniciar sesión!", "error");
-    }
+      }
+    );
   };
-  const useGoogleRegister = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      const { user } = await signInWithPopup(auth, provider);
-      await getByIdNoHook("users", "userID", "==", user.uid).then(async (data) => {
+
+  const registerHook = async (user: User) => {
+    await getByIdNoHook("users", "userID", "==", user.uid).then(
+      async (data) => {
         if (data === undefined) {
           if (user) {
             await create(
@@ -70,7 +95,14 @@ export const useInicioSesion = () => {
         } else {
           await ModalSweet("Usuario ya registrado", "error");
         }
-      });
+      }
+    );
+  };
+  const useGoogleRegister = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      const { user } = await signInWithPopup(auth, provider);
+      await registerHook(user);
     } catch (error) {
       await ModalSweet("!Error al iniciar sesión!", "error");
     }
@@ -84,13 +116,15 @@ export const useInicioSesion = () => {
             setEmail(values.email);
             const encryptedUID = encryptUID(user.uid);
             localStorage.setItem("UDEN", encryptedUID);
-            await getByIdNoHook("users", "userID", "==", user.uid).then((data) => {
-              if (data.config) {
-                rouer.push("/preferencias-alimenticias");
-              } else {
-                rouer.push("/home");
+            await getByIdNoHook("users", "userID", "==", user.uid).then(
+              (data) => {
+                if (data.config) {
+                  rouer.push("/preferencias-alimenticias");
+                } else {
+                  rouer.push("/home");
+                }
               }
-            });
+            );
             await ModalSweet("!Bienvenido!", "success");
           } else {
             await ModalSweet("Verifica tu correo electrónico", "error");
@@ -148,5 +182,7 @@ export const useInicioSesion = () => {
     LoginEmail,
     Register,
     useGoogleRegister,
+    useFacebook,
+    useFacebookRegister
   };
 };

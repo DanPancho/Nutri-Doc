@@ -16,7 +16,7 @@ import FormRegister from "@/utils/components/forms/Formregister";
 import FormLogin from "@/utils/components/forms/Formlogin";
 
 const InicioSesionComponent = () => {
-  const { useGoogle , useGoogleRegister} = useInicioSesion();
+  const { useGoogle , useGoogleRegister, useFacebook, useFacebookRegister} = useInicioSesion();
   const [register, setRegister] = useState(false);
 
   return (
@@ -46,6 +46,7 @@ const InicioSesionComponent = () => {
                 type="submit"
                 style={{ marginRight: "20px" }}
                 colorbg="#3b5998 "
+                onClick={useFacebookRegister}
               >
                 <FacebookIcon />
               </ButtonSocialesMUI>
@@ -63,6 +64,7 @@ const InicioSesionComponent = () => {
                 type="submit"
                 style={{ marginRight: "20px" }}
                 colorbg="#3b5998 "
+                onClick={useFacebook}
               >
                 <FacebookIcon />
               </ButtonSocialesMUI>
