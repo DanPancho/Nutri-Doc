@@ -26,9 +26,9 @@ export const useInicioSesion = () => {
   const rouer = useRouter();
   const useGoogle = async () => {
     try {
-      //let user : User;
       const provider = new GoogleAuthProvider();
       const { user } = await signInWithPopup(auth, provider);
+      await LoginHook(user);
     } catch (error) {
       await ModalSweet("!Error al iniciar sesión!", "error");
     }
