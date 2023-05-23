@@ -1,3 +1,4 @@
+import { ITypefood } from "@/interfaces/food/food";
 import { IDiasReto, IRetos } from "@/interfaces/retos/retos";
 import { CrudService } from "@/services/crud";
 import { decryptUID } from "@/utils/encryption/encryptions";
@@ -32,17 +33,42 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
     fetchData();
   }, []);
 
-  const handleSuscribe = async (idReto: string) => {
+  const handleSuscribe = async (idReto: string, type: number) => {
     if (userRetoID !== "") {
       await ModalSweet("Solo pude estar suscrito a un reto", "info", "center");
     } else {
       setLoading(true);
       const idDoc = (await getDoc("users", "userID", "==", userUID)).docs[0].id;
       const reto: any = await getByIdNoHook("dietas", "idReto", "==", idReto);
+      let suscribe = true;
       if (user) {
         const retosUser: any[] = user[0].retos;
         retosUser.push(reto);
-        update("users", idDoc, { retoId: idReto, retos: retosUser })
+        const userPreferences: ITypefood[] = Array.from(
+          Object.values(user[0].preferencia_alimentos)
+        );
+        userPreferences.map((item) => {
+          let aux = 0;
+          item.foods.map((food) => {
+            if(food.status){
+              if (food.type === type || food.type === 2) {
+                aux += 1;
+              }
+            }
+          });
+          if (aux < 3) {
+            suscribe = false;
+            return;
+          }
+        });
+        if (!suscribe) {
+          await ModalSweet(
+            "Tu configuración de alimentos, no es compatible con este reto",
+            "info"
+          );
+          setLoading(false);
+        } else {
+          update("users", idDoc, { retoId: idReto, retos: retosUser })
           .then(async () => {
             await ModalSweet("Suscrito", "success");
             setLoading(false);
@@ -51,6 +77,7 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
             await ModalSweet("Error", "error");
             setLoading(false);
           });
+        }        
       }
     }
   };
@@ -71,8 +98,8 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
         return { ...userData, retos: retos };
       });
       const idDoc = (await getDoc("users", "userID", "==", userUID)).docs[0].id;
-      if(idDoc){
-        update("users", idDoc, {retos: newUser[0].retos, retoId: ''})
+      if (idDoc) {
+        update("users", idDoc, { retos: newUser[0].retos, retoId: "" })
           .then(async () => {
             await ModalSweet("Reto Cancelado", "info");
             setLoading(false);
@@ -81,7 +108,6 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
             await ModalSweet("Error", "error");
             setLoading(false);
             console.log(e);
-            
           });
       }
     }
@@ -117,13 +143,13 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
                     color={"error"}
                     colorbg={"#b43649"}
                   >
-                    Cancelar el reto
+                    Cancelar reto
                   </ButtonMUI>
                 </>
               ) : (
                 <ButtonMUI
                   variant="contained"
-                  onClick={() => handleSuscribe(item.title)}
+                  onClick={() => handleSuscribe(item.title, item.type)}
                   disabled={loading}
                 >
                   Suscribirse

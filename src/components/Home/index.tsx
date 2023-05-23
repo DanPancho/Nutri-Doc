@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { CrudService } from "@/services/crud";
 import { IFoods, ITypefood } from "@/interfaces/food/food";
 import { decryptUID } from "@/utils/encryption/encryptions";
+import { food } from "../PreferenciasAlimenticias";
 
 const actions = [
   { icon: <SettingsIcon />, name: "Share", src: "preferencias-alimenticias" },
@@ -18,7 +19,7 @@ const actions = [
 
 const HomeComponent = () => {
   const router = useRouter();
-  const { getById } = CrudService();
+  const { getById, getAllRetos } = CrudService();
   const [data, setData] = useState<IFoods[]>();
   const storedEncryptedUID =
     typeof window !== "undefined" && window.localStorage.getItem("UDEN");
@@ -27,34 +28,72 @@ const HomeComponent = () => {
     userUID = decryptUID(storedEncryptedUID);
   }
   const user: any = getById("users", "userID", "==", userUID);
-  const [userRetoID, setRetoID] = useState('');
+  const [userRetoID, setRetoID] = useState("");
 
   useEffect(() => {
-    const auxFood: IFoods[] = [];
-    const auxFoodActive: ITypefood[] = [];
-    if (user?.length) {
-      setRetoID(user[0].retoId);
-      if (!user[0].config) {
-        auxFood.push({
-          content: {
-            ...user[0].preferencia_alimentos,
-          },
-        });
+    const fetchData = async () => {
+      const auxFood: IFoods[] = [];
+      const auxFoodActive: ITypefood[] = [];
+      if (user?.length) {
+        setRetoID(user[0].retoId);
+        if (user[0].retoId !== "") {
+          await getAllRetos("tipos_retos").then((retosData) => {
+            console.log(retosData);
+            if (retosData?.length) {
+              auxFood.push({
+                content: {
+                  ...user[0].preferencia_alimentos,
+                },
+              });
+              const reto = retosData[0].retos.find(
+                (reto) => reto.title == user[0].retoId
+              );
 
-        Array.from(Object.values(auxFood[0].content)).map((foods) => {
-          auxFoodActive.push({
-            title: foods.title,
-            foods: foods.foods.filter((food) => food.status === true),
+              Array.from(Object.values(auxFood[0].content)).map((foods) => {
+                console.log(foods);
+
+                auxFoodActive.push({
+                  title: foods.title,
+                  foods: foods.foods.filter(
+                    (food) =>
+                      food.status === true &&
+                      (food.type === 2 || food.type === reto?.type)
+                  ),
+                });
+              });
+              auxFood[0] = {
+                content: {
+                  ...auxFoodActive,
+                },
+              };
+              setData(auxFood);
+            }
           });
-        });
-        auxFood[0] = {
-          content: {
-            ...auxFoodActive,
-          },
-        };
-        setData(auxFood);
+        } else {
+          if (!user[0].config) {
+            auxFood.push({
+              content: {
+                ...user[0].preferencia_alimentos,
+              },
+            });
+
+            Array.from(Object.values(auxFood[0].content)).map((foods) => {
+              auxFoodActive.push({
+                title: foods.title,
+                foods: foods.foods.filter((food) => food.status === true),
+              });
+            });
+            auxFood[0] = {
+              content: {
+                ...auxFoodActive,
+              },
+            };
+            setData(auxFood);
+          }
+        }
       }
-    }
+    };
+    fetchData();
   }, [user]);
 
   return (
@@ -79,7 +118,7 @@ const HomeComponent = () => {
       <>
         <AlimentosPreferencias food={data ? data[0] : undefined} />
         <hr />
-        <RetosComponent userRetoID={userRetoID}/>
+        <RetosComponent userRetoID={userRetoID} />
       </>
     </BaseLayout>
   );

@@ -77,7 +77,23 @@ const AlimentosPreferencias = ({
                   src={item.imgsrc}
                 />
               </ListItemAvatar>
-              <ListItemText primary={item.name} secondary={item.description} />
+              {router.pathname === "/preferencias-alimenticias" ? (
+                <ListItemText
+                  primary={item.name}
+                  secondary={item.description}
+                />
+              ) : (
+                <ListItemText
+                  primary={
+                    item.type === 0
+                      ? `${item.name} (Alto en fibra)`
+                      : item.type === 1
+                      ? `${item.name} (Hipocalorico)`
+                      : `${item.name} (Alto en friba e hipocolorico)`
+                  }
+                  secondary={item.description}
+                />
+              )}
               {router.pathname === "/preferencias-alimenticias" ? (
                 <SwitchComponent opcion={value} index={index} config={config} />
               ) : (

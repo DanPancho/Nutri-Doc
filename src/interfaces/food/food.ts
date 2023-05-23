@@ -2,6 +2,7 @@ export interface IFood {
   name: string;
   description: string;
   imgsrc: string;
+  type: number;
   status?: boolean;
 }
 export interface IFoods {
@@ -10,5 +11,5 @@ export interface IFoods {
 
 export interface ITypefood {
     title: string,
-    foods: IFood[]
+    foods: IFood[],
 }

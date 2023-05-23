@@ -1,6 +1,7 @@
 export interface IReto {
   title: string;
   description: string;
+  type: number;
 }
 
 export interface IRetos {

@@ -31,9 +31,9 @@ const UserData = ({
     if (idDoc) {
       if (config) {
         let aux = 0;
-        const resultMin = Array.from(Object.values(config)).length * 5;
+        const resultMin = Array.from(Object.values(config)).length * 7;
         Array.from(Object.values(config)).map((item) => {
-          if(item.foods.filter((food) => food.status).length >= 5){
+          if(item.foods.filter((food) => food.status).length >= 7){
             aux += item.foods.filter((food) => food.status).length;
           }
         });
@@ -59,7 +59,7 @@ const UserData = ({
           });
       } else {
         await ModalSweet(
-          "Debe tener como minimo 5 alimentos activos por categoria",
+          "Debe tener como minimo 7 alimentos activos por categoria",
           "info"
         );
         setLoading(false);
