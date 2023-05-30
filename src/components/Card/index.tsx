@@ -13,11 +13,20 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { CardStyles } from "../reto/styles";
 import { IPlatos } from "@/interfaces/retos/retos";
 import { Container } from "@mui/system";
+import { ITypefood } from "@/interfaces/food/food";
+import Link from "next/link";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
 }
-
+interface IIntolerancias {
+  alimentos: string[];
+  sustituciones: ISustituciones[];
+}
+interface ISustituciones {
+  Alimentointolerente: string;
+  alternativa: string;
+}
 const ExpandMore = styled((props: ExpandMoreProps) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -32,15 +41,50 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 const CardRetos = ({
   dataPlatos,
   index,
+  userPreferences,
 }: {
   dataPlatos: IPlatos | undefined;
   index: number;
+  userPreferences: ITypefood[] | undefined;
 }) => {
   const [expanded, setExpanded] = React.useState(false);
+  const [intolerancias, setIntolerancias] = React.useState<IIntolerancias[]>();
+  let aux: IIntolerancias[] = [];
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+  React.useEffect(() => {
+    if (userPreferences && dataPlatos) {
+      let alimentos: string[] = [];
+      let sustituciones: ISustituciones[] = [];
+      Array.from(Object.values(dataPlatos.ingredientesPlatos)).map((item) => {
+        item.alimentos.map((alimento) => {
+          Array.from(Object.values(userPreferences)).map((userItem) => {
+            userItem.foods.map((food) => {
+              if (food.name == alimento && food.status === false) {
+                alimentos.push(alimento);
+                let alimentosActivos = userItem.foods.filter(
+                  (alimentoBuscado) => alimentoBuscado.status === true
+                );
+                const numeroAleatorio: number = Math.floor(Math.random() * 7);
+                sustituciones.push({
+                  Alimentointolerente: alimento,
+                  alternativa: alimentosActivos[numeroAleatorio].name,
+                });
+                aux.push({
+                  alimentos: alimentos,
+                  sustituciones: sustituciones,
+                });
+              }
+            });
+          });
+        });
+      });
+      setIntolerancias(aux);
+    }
+    // 
+  }, [userPreferences, dataPlatos]);
 
   return (
     <CardStyles>
@@ -56,18 +100,13 @@ const CardRetos = ({
       <CardMedia
         component="img"
         height="154"
-        image="https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I="
+        image={dataPlatos?.img}
         alt="Plato-img"
       />
-      <CardContent>
-        <Typography variant="body2" color="text.secondary">
-          {dataPlatos?.description}
-        </Typography>
-      </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="share">
           <Typography variant="body2" color="text.secondary">
-            Ingredientes
+            Preparación
           </Typography>
         </IconButton>
         <ExpandMore
@@ -83,12 +122,12 @@ const CardRetos = ({
         <CardContent>
           <Typography>
             <ul>
-              {dataPlatos?.ingredientes.map((item) => (
-                <li key={item.tipo}>
+              {dataPlatos?.ingredientesPlatos.map((item) => (
+                <li key={item.nombrePlato}>
                   <Typography variant="body2" color="text.secondary">
-                    {item.tipo}
+                    {item.nombrePlato}
                     <Typography variant="body2" color="text.secondary">
-                      {item.cantidad}
+                      {item.preparacion}
                     </Typography>
                   </Typography>
                 </li>
@@ -96,11 +135,45 @@ const CardRetos = ({
             </ul>
           </Typography>
           <br />
-          <Container sx={{background: "#f4c732", padding: "0.3em", borderRadius: '10px'}}>
-            <Typography variant="body2" color="text.secondary">
-              <strong>Importante: </strong> Si eres alérgico o intolerante a alguno de estos alimentos, puedes buscar una alternativa en las recomendaciones alimenticias.
-            </Typography>
-          </Container>
+          {intolerancias?.length ? (
+            <Container
+              sx={{
+                background: "#f4c732",
+                padding: "0.3em",
+                borderRadius: "10px",
+              }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                Eres alérgico o itolerente a:
+                <ul>
+                  {
+                    intolerancias[0].alimentos.map((alimento) => (
+                      <li key={alimento}>{alimento}</li>
+                    ))
+                  }
+                </ul>
+                Te recomendamos remplazarlo:
+                <ul>
+                  {
+                    intolerancias[0].sustituciones.map((sustitucion) => (
+                      <li key={sustitucion.alternativa}>
+                        {sustitucion.Alimentointolerente} por{" "}
+                        {sustitucion.alternativa}
+                      </li>
+                    ))
+                  }
+                </ul>
+                <br />
+                <strong>Nota: </strong> 
+                <ul>
+                  <li>Puedes encontrar mas opciones con sus respectivas porciones en:<Link href={"/recomendaciones"}>Recomendaciones alimenticias</Link></li>
+                  <li>Para frutas pequeñas como uvas, ftutillas, etc. Comer solo 10 unidades.</li>
+                </ul>
+              </Typography>
+            </Container>
+          ) : (
+            <></>
+          )}
         </CardContent>
       </Collapse>
     </CardStyles>

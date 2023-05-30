@@ -6,51 +6,7 @@ import AlimentosPreferencias from "./Preferencias";
 import { CrudService } from "@/services/crud";
 import Navbar from "@/components/NavBar";
 import { decryptUID } from "@/utils/encryption/encryptions";
-import { type } from "os";
 
-export const food: IFoods = {
-  content: [
-    {
-      title: "Frutas",
-      foods: [
-        {
-          name: "Manzana1",
-          description:
-            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
-          imgsrc:
-            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
-          type: 2,
-        },
-      ],
-    },
-    {
-      title: "Verduras",
-      foods: [
-        {
-          name: "Lechuga",
-          description:
-            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
-          imgsrc:
-            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
-          type: 2,
-        },
-      ],
-    },
-    {
-      title: "Carnes",
-      foods: [
-        {
-          name: "Res",
-          description:
-            "Esta es la descrciopn de frutas, son muy saludables deberias comer una diaria",
-          imgsrc:
-            "https://media.istockphoto.com/id/529664572/es/foto/fondo-de-frutas.jpg?s=612x612&w=0&k=20&c=ZD4dqnpnwQDcCNtR1uPbYqnkaYND192I7H_4lKqEn5I=",
-          type: 2,
-        },
-      ],
-    },
-  ],
-};
 
 const Preferencias: React.FC = () => {
   const { getAll, getById } = CrudService();

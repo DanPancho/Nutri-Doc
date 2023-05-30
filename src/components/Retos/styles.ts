@@ -7,6 +7,8 @@ export const ContainerRetos = styled.div`
     width: 30%;
     border-radius: 10px ;
     @media (max-width: 1329px) {
-        width: 100%;
+        margin-top: 5em;
+      height: 100vh;
+      width: 90%;
     }
 `

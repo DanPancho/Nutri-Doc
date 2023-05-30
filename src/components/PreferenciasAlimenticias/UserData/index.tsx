@@ -33,7 +33,7 @@ const UserData = ({
         let aux = 0;
         const resultMin = Array.from(Object.values(config)).length * 7;
         Array.from(Object.values(config)).map((item) => {
-          if(item.foods.filter((food) => food.status).length >= 7){
+          if (item.foods.filter((food) => food.status).length >= 7) {
             aux += item.foods.filter((food) => food.status).length;
           }
         });
@@ -46,9 +46,7 @@ const UserData = ({
               "Preferencias alimentarias actualizadas",
               "success"
             );
-            setTimeout(() => {
-              router.push("/home");
-            }, 2000);
+            router.push("/home");
           })
           .catch(async () => {
             await ModalSweet(

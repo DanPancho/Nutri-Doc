@@ -10,7 +10,7 @@ const FormLogin = () => {
         type={'email'}
         id="email"
         name="email"
-        label="Ingrese su correo electronico"
+        label="Ingrese su correo electrónico"
         variant="standard"
         color="success"
         onChange={formikLogin.handleChange}

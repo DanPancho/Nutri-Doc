@@ -1,4 +1,3 @@
-import { ITypefood } from "@/interfaces/food/food";
 import { IDiasReto, IRetos } from "@/interfaces/retos/retos";
 import { CrudService } from "@/services/crud";
 import { decryptUID } from "@/utils/encryption/encryptions";
@@ -15,7 +14,7 @@ import { ContainerRetos } from "./styles";
 const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
   const [retos, setRetos] = useState<IRetos[] | undefined>();
   const [loading, setLoading] = useState(false);
-  const { update, getDoc, getByIdNoHook, getById } = CrudService();
+  const { update, getDoc, getById, getAllDias } = CrudService();
   const router = useRouter();
   const storedEncryptedUID =
     typeof window !== "undefined" && window.localStorage.getItem("UDEN");
@@ -33,51 +32,30 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
     fetchData();
   }, []);
 
-  const handleSuscribe = async (idReto: string, type: number) => {
+  const handleSuscribe = async (idReto: string) => {
     if (userRetoID !== "") {
       await ModalSweet("Solo pude estar suscrito a un reto", "info", "center");
     } else {
       setLoading(true);
       const idDoc = (await getDoc("users", "userID", "==", userUID)).docs[0].id;
-      const reto: any = await getByIdNoHook("dietas", "idReto", "==", idReto);
-      let suscribe = true;
-      if (user) {
-        const retosUser: any[] = user[0].retos;
-        retosUser.push(reto);
-        const userPreferences: ITypefood[] = Array.from(
-          Object.values(user[0].preferencia_alimentos)
+      const retos = await getAllDias("dietas");
+      if (retos) {
+        const reto = Array.from(Object.values(retos[0])).find(
+          (item) => item.idReto == idReto
         );
-        userPreferences.map((item) => {
-          let aux = 0;
-          item.foods.map((food) => {
-            if(food.status){
-              if (food.type === type || food.type === 2) {
-                aux += 1;
-              }
-            }
-          });
-          if (aux < 3) {
-            suscribe = false;
-            return;
-          }
-        });
-        if (!suscribe) {
-          await ModalSweet(
-            "Tu configuración de alimentos, no es compatible con este reto",
-            "info"
-          );
-          setLoading(false);
-        } else {
+        if (user) {
+          const retosUser: any[] = user[0].retos;
+          retosUser.push({...reto, dayStart: new Date().toLocaleString(), actualDay: new Date().toLocaleString()});
           update("users", idDoc, { retoId: idReto, retos: retosUser })
-          .then(async () => {
-            await ModalSweet("Suscrito", "success");
-            setLoading(false);
-          })
-          .catch(async (e) => {
-            await ModalSweet("Error", "error");
-            setLoading(false);
-          });
-        }        
+            .then(async () => {
+              await ModalSweet("Suscrito", "success");
+              setLoading(false);
+            })
+            .catch(async (e) => {
+              await ModalSweet("Error", "error");
+              setLoading(false);
+            });
+        }
       }
     }
   };
@@ -117,46 +95,103 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
     <ContainerRetos>
       <Title>Retos Alimenticios</Title>
       {retos
-        ? Array.from(Object.values(retos))[0].retos.map((item) => (
-            <Paper
-              key={item.title}
-              elevation={3}
-              sx={{ padding: "3%", marginBottom: "0.5em" }}
-            >
-              <Heading marginBottom={1}>{item.title}</Heading>
-              <ListItemText secondary={item.description} />
-              {userRetoID === item.title ? (
-                <>
+        ? userRetoID === ""
+          ? Array.from(Object.values(retos))[0].retos.map((item) => (
+              <Paper
+                key={item.title}
+                elevation={3}
+                sx={{ padding: "3%", marginBottom: "0.5em" }}
+              >
+                <Heading marginBottom={1}>{item.title}</Heading>
+                <ListItemText secondary={item.description} />
+                {userRetoID === item.title ? (
+                  <>
+                    <ButtonMUI
+                      variant="contained"
+                      onClick={() => {
+                        handleContinue(item.title);
+                      }}
+                      disabled={loading}
+                      colorbg={"#4CAF50"}
+                    >
+                      ¡Vamos con el reto!
+                    </ButtonMUI>
+                    <ButtonMUI
+                      variant="contained"
+                      onClick={cancelReto}
+                      disabled={loading}
+                      color={"error"}
+                      colorbg={"#b43649"}
+                    >
+                      Cancelar reto
+                    </ButtonMUI>
+                  </>
+                ) : (
                   <ButtonMUI
                     variant="contained"
-                    onClick={() => {
-                      handleContinue(item.title);
+                    onClick={() => handleSuscribe(item.title)}
+                    disabled={loading}
+                  >
+                    Suscribirse
+                  </ButtonMUI>
+                )}
+              </Paper>
+            ))
+          : Array.from(Object.values(retos))[0].retos.map((item) => (
+              <>
+                {userRetoID === item.title ? (
+                  <Paper
+                    key={item.title}
+                    elevation={3}
+                    sx={{
+                      padding: "3%",
+                      marginBottom: "0.5em",
+                      border: "2px solid #4CAF50",
                     }}
-                    disabled={loading}
                   >
-                    Continuar con el Reto
-                  </ButtonMUI>
-                  <ButtonMUI
-                    variant="contained"
-                    onClick={cancelReto}
-                    disabled={loading}
-                    color={"error"}
-                    colorbg={"#b43649"}
+                    <Heading marginBottom={1}>{item.title}</Heading>
+                    <ListItemText secondary={item.description} />
+                    <>
+                      <ButtonMUI
+                        variant="contained"
+                        onClick={() => {
+                          handleContinue(item.title);
+                        }}
+                        disabled={loading}
+                        colorbg={"#4CAF50"}
+                      >
+                        ¡Vamos con el reto!
+                      </ButtonMUI>
+                      <ButtonMUI
+                        variant="contained"
+                        onClick={cancelReto}
+                        disabled={loading}
+                        color={"error"}
+                        colorbg={"#b43649"}
+                      >
+                        Cancelar reto
+                      </ButtonMUI>
+                    </>
+                  </Paper>
+                ) : (
+                  <Paper
+                    key={item.title}
+                    elevation={3}
+                    sx={{ padding: "3%", marginBottom: "0.5em" }}
                   >
-                    Cancelar reto
-                  </ButtonMUI>
-                </>
-              ) : (
-                <ButtonMUI
-                  variant="contained"
-                  onClick={() => handleSuscribe(item.title, item.type)}
-                  disabled={loading}
-                >
-                  Suscribirse
-                </ButtonMUI>
-              )}
-            </Paper>
-          ))
+                    <Heading marginBottom={1}>{item.title}</Heading>
+                    <ListItemText secondary={item.description} />
+                    <ButtonMUI
+                      variant="contained"
+                      onClick={() => handleSuscribe(item.title)}
+                      disabled={loading}
+                    >
+                      Suscribirse
+                    </ButtonMUI>
+                  </Paper>
+                )}
+              </>
+            ))
         : "Cargando..."}
     </ContainerRetos>
   );

@@ -1,7 +1,6 @@
 export interface IReto {
   title: string;
   description: string;
-  type: number;
 }
 
 export interface IRetos {
@@ -20,13 +19,15 @@ export interface IAlimentacion {
 }
 
 export interface IIngredientes {
-  tipo: string;
-  cantidad: string;
+  nombrePlato: string;
+  preparacion: string;
+  alimentos: string[];
 }
 export interface IPlatos {
   description: string;
   name: string;
-  ingredientes: IIngredientes[];
+  img:string;
+  ingredientesPlatos: IIngredientes[];
 }
 export interface IDiaReto {
   platos: IPlatos[];
@@ -37,4 +38,6 @@ export interface IDiasReto {
   idReto: string;
   dias: IDiaReto[];
   retoStatus: number;
+  actualDay: string;
+  dayStart: string;
 }

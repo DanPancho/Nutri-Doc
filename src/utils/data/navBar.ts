@@ -5,11 +5,15 @@ interface IItemsBar {
 
 export const navItems: IItemsBar[] = [
     {
-        name: "Home",
+        name: "Retos",
         src: "/home"
     },
     {
         name: "Mis retos",
         src: "/mis-retos"
-    }
+    },
+    {
+        name: "Recomendaciones Alimenticias",
+        src: "/recomendaciones"
+    },
 ]

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Card, Paper, Typography } from "@mui/material";
+import { Button, Card, Paper, Typography } from "@mui/material";
 
 export const ContainerDay = styled.div`
   display: flex;
@@ -106,9 +106,21 @@ export const Title = styled.h3`
 `;
 
 export const CardStyles = styled(Card)`
-    width: 50%;
-    @media (max-width: 1150px) {
-        width: 100%
+  width: 75%;
+  @media (max-width: 1150px) {
+    width: 100%;
   }
-`
+`;
+
+export const BtnMUI = styled.span`
+  color: #fff;
+  background: #f4c732;
+  border-radius: 10px;
+  font-size: 0.75em;
+  padding: 0.5em 1em;
+  &:hover {
+    color: #fff;
+    background: #f4c732;
+  }
+`;
 //1150

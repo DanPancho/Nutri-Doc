@@ -6,7 +6,6 @@ import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SettingsIcon from "@mui/icons-material/Settings";
 import AlimentosPreferencias from "@/components/PreferenciasAlimenticias/Preferencias";
-import RetosComponent from "../Retos";
 import { useRouter } from "next/router";
 import { CrudService } from "@/services/crud";
 import { IFoods, ITypefood } from "@/interfaces/food/food";
@@ -16,7 +15,7 @@ const actions = [
   { icon: <SettingsIcon />, name: "Share", src: "preferencias-alimenticias" },
 ];
 
-const HomeComponent = () => {
+const SugerenciasComponent = () => {
   const router = useRouter();
   const { getById, getAllRetos } = CrudService();
   const [data, setData] = useState<IFoods[]>();
@@ -27,14 +26,12 @@ const HomeComponent = () => {
     userUID = decryptUID(storedEncryptedUID);
   }
   const user: any = getById("users", "userID", "==", userUID);
-  const [userRetoID, setRetoID] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       const auxFood: IFoods[] = [];
       const auxFoodActive: ITypefood[] = [];
       if (user?.length) {
-        setRetoID(user[0].retoId);
         if (user[0].retoId !== "") {
           await getAllRetos("tipos_retos").then((retosData) => {
             console.log(retosData);
@@ -53,10 +50,7 @@ const HomeComponent = () => {
 
                 auxFoodActive.push({
                   title: foods.title,
-                  foods: foods.foods.filter(
-                    (food) =>
-                      food.status === true 
-                  ),
+                  foods: foods.foods.filter((food) => food.status === true),
                 });
               });
               auxFood[0] = {
@@ -114,12 +108,10 @@ const HomeComponent = () => {
       </SpeedDial>
       <Navbar />
       <>
-        {/* <AlimentosPreferencias food={data ? data[0] : undefined} />
-        <hr /> */}
-        <RetosComponent userRetoID={userRetoID} />
+        <AlimentosPreferencias food={data ? data[0] : undefined} />
       </>
     </BaseLayout>
   );
 };
 
-export default HomeComponent;
+export default SugerenciasComponent;

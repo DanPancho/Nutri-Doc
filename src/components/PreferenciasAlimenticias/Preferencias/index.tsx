@@ -35,7 +35,7 @@ const AlimentosPreferencias = ({
   const ref = useRef<HTMLDivElement>(null);
   const [value, setvalue] = useState(0);
   const router = useRouter();
-  const margin = router.pathname === "/home" ? "4em" : "0";
+  const margin = router.pathname === "/sugerencias" ? "4em" : "0";
   return (
     <ContainerPreferencias margin={margin}>
       <Box
@@ -51,7 +51,7 @@ const AlimentosPreferencias = ({
           <Title>Recomendaciones Alimenticas</Title>
         ) : (
           <>
-            <Title>Preferencias Alimenticas</Title>
+            <Title>Recomendaciones Alimenticas</Title>
             <Container
               sx={{
                 background: "#f4c732",
@@ -77,23 +77,10 @@ const AlimentosPreferencias = ({
                   src={item.imgsrc}
                 />
               </ListItemAvatar>
-              {router.pathname === "/preferencias-alimenticias" ? (
-                <ListItemText
-                  primary={item.name}
-                  secondary={item.description}
-                />
-              ) : (
-                <ListItemText
-                  primary={
-                    item.type === 0
-                      ? `${item.name} (Alto en fibra)`
-                      : item.type === 1
-                      ? `${item.name} (Hipocalorico)`
-                      : `${item.name} (Alto en friba e hipocolorico)`
-                  }
-                  secondary={item.description}
-                />
-              )}
+              <ListItemText
+                primary={item.name}
+                secondary={item.description}
+              />
               {router.pathname === "/preferencias-alimenticias" ? (
                 <SwitchComponent opcion={value} index={index} config={config} />
               ) : (

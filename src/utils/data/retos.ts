@@ -1,22 +1,5 @@
-import { IDia, IReto } from "@/interfaces/retos/retos";
+import { IDia } from "@/interfaces/retos/retos";
 
-export const retos: IReto[] = [
-  {
-    title: "Reto1",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi nemo necessitatibus facere, excepturi sunt accusamus omnis, aliquam eius perferendis fuga autem, aperiam saepe at corrupti? Odit error saepe facere adipisci.",
-  },
-  {
-    title: "Reto2",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi nemo necessitatibus facere, excepturi sunt accusamus omnis, aliquam eius perferendis fuga autem, aperiam saepe at corrupti? Odit error saepe facere adipisci.",
-  },
-  {
-    title: "Reto3",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi nemo necessitatibus facere, excepturi sunt accusamus omnis, aliquam eius perferendis fuga autem, aperiam saepe at corrupti? Odit error saepe facere adipisci.",
-  },
-];
 
 export const Dias:IDia[] = [
   {

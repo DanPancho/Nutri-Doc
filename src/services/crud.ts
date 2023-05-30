@@ -13,7 +13,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../firebase";
 import { getAuth } from "firebase/auth";
-import { IRetos } from "@/interfaces/retos/retos";
+import { IDiasReto, IRetos } from "@/interfaces/retos/retos";
 
 export const CrudService = () => {
   const create = async (data: any, collectionName: string) => {
@@ -38,6 +38,17 @@ export const CrudService = () => {
         ({
           ...doc.data(),
         } as IRetos)
+    );
+    return data;
+  };
+
+  const getAllDias = async (collectionName: string): Promise<IDiasReto[]> => {
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    const data = querySnapshot.docs.map(
+      (doc) =>
+        ({
+          ...doc.data(),
+        } as IDiasReto)
     );
     return data;
   };
@@ -105,6 +116,7 @@ export const CrudService = () => {
     getDoc,
     update,
     getAllRetos,
-    getByIdNoHook
+    getByIdNoHook,
+    getAllDias
   };
 };

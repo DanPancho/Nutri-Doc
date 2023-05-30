@@ -48,6 +48,7 @@ export default function Misretos() {
   React.useEffect(() => {
     if (user) {
       const retosAux: IDiasReto[] = user[0].retos;
+      retosAux.reverse();
       setRetos(Array.from(Object.values(retosAux)));
     }
   }, [user]);
@@ -86,39 +87,39 @@ export default function Misretos() {
                     <Typography>{row.idReto}</Typography>
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.retoStatus === 0 && (
+                    {row?.retoStatus === 0 && (
                       <Typography color={"#009929"}>En Curso</Typography>
                     )}
-                    {row.retoStatus === 1 && (
+                    {row?.retoStatus === 1 && (
                       <Typography color={"#e80729"}>Terminado</Typography>
                     )}
-                    {row.retoStatus === 2 && (
+                    {row?.retoStatus === 2 && (
                       <Typography color={"#e80729"}>Cancelado</Typography>
                     )}
                   </StyledTableCell>
                   <StyledTableCell align="center">
                     <Typography>
-                      {row.dias.filter((dia) => dia.statusDay === 1).length}{" "}
-                      Día/s de {row.dias.length}
+                      {row?.dias?.filter((dia) => dia.statusDay === 1)?.length}{" "}
+                      Día/s de {row?.dias?.length}
                     </Typography>
                   </StyledTableCell>
                   <StyledTableCell align="center">
-                    {row.dias.filter((dia) => dia.statusDay === 1).length >
-                      row.dias.length / 2 && (
+                    {row?.dias?.filter((dia) => dia.statusDay === 1)?.length >
+                      row?.dias?.length / 2 && (
                       <SentimentSatisfiedAltIcon
                         color="success"
                         fontSize="large"
                       />
                     )}
-                    {row.dias.filter((dia) => dia.statusDay === 1).length <
-                      row.dias.length / 2 && (
+                    {row?.dias?.filter((dia) => dia.statusDay === 1)?.length <
+                      row?.dias?.length / 2 && (
                       <SentimentVeryDissatisfiedIcon
                         color="error"
                         fontSize="large"
                       />
                     )}
-                    {row.dias.filter((dia) => dia.statusDay === 1).length ===
-                      row.dias.length / 2 && (
+                    {row?.dias?.filter((dia) => dia.statusDay === 1)?.length ===
+                      row?.dias?.length / 2 && (
                       <SentimentVeryDissatisfiedIcon
                         color="info"
                         fontSize="large"

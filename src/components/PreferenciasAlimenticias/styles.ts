@@ -94,7 +94,8 @@ export const ContainerPreferencias = styled.div<{
   height: 80vh;
   width: 50%;
   @media (max-width: 1329px) {
-    width: 100%;
+    width: 95%;
+    height: 100vh;
     margin-top: ${(props) => (props.margin !== undefined ? props.margin : "0")};
   }
 `;
