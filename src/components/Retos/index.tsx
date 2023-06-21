@@ -52,6 +52,8 @@ const RetosComponent = ({ userRetoID }: { userRetoID: string }) => {
               setLoading(false);
             })
             .catch(async (e) => {
+              console.log(e);
+              
               await ModalSweet("Error", "error");
               setLoading(false);
             });

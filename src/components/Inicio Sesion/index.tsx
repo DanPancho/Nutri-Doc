@@ -91,7 +91,7 @@ const InicioSesionComponent = () => {
                 </p>
               ) : (
                 <p style={{ marginTop: "15px", paddingBottom: "20px" }}>
-                  ¿Aun no tienes una cuenta?{" "}
+                  ¿Aún no tienes una cuenta?{" "}
                   <strong
                     style={{ cursor: "pointer" }}
                     onClick={() => setRegister(!register)}

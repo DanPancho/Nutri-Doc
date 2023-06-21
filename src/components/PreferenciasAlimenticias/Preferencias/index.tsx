@@ -23,7 +23,10 @@ import {
   faAppleWhole,
   faDrumstickBite,
   faCarrot,
+  faCow,
+  faBreadSlice,
 } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 
 const AlimentosPreferencias = ({
   food,
@@ -47,11 +50,11 @@ const AlimentosPreferencias = ({
         }}
         ref={ref}
       >
-        {router.pathname === "/home" ? (
+        {router.pathname === "/recomendaciones" ? (
           <Title>Recomendaciones Alimenticas</Title>
         ) : (
           <>
-            <Title>Recomendaciones Alimenticas</Title>
+            <Title>Configuración de recomendaciones alimenticas</Title>
             <Container
               sx={{
                 background: "#f4c732",
@@ -77,14 +80,23 @@ const AlimentosPreferencias = ({
                   src={item.imgsrc}
                 />
               </ListItemAvatar>
-              <ListItemText
-                primary={item.name}
-                secondary={item.description}
-              />
-              {router.pathname === "/preferencias-alimenticias" ? (
-                <SwitchComponent opcion={value} index={index} config={config} />
+              {router.pathname !== "/preferencias-alimenticias" ? (
+                <ListItemText
+                  primary={item.name}
+                  secondary={item.recomendacion}
+                />
               ) : (
-                <></>
+                <>
+                  <ListItemText
+                    primary={item.name}
+                    secondary={item.description}
+                  />
+                  <SwitchComponent
+                    opcion={value}
+                    index={index}
+                    config={config}
+                  />
+                </>
               )}
             </ListItem>
           ))}
@@ -94,20 +106,100 @@ const AlimentosPreferencias = ({
             <BottomNavigation showLabels value={value}>
               <BottomNavigationAction
                 label="Frutas"
-                icon={<FontAwesomeIcon icon={faAppleWhole} fontSize={"2em"} />}
+                icon={
+                  <Image
+                    src={"/alimentos/apple.png"}
+                    width={30}
+                    height={30}
+                    alt="img-apple"
+                  />
+                }
                 onClick={() => setvalue(0)}
               />
               <BottomNavigationAction
                 label="Verduras"
-                icon={<FontAwesomeIcon icon={faCarrot} fontSize={"2em"} />}
+                icon={
+                  <Image
+                    src={"/alimentos/zanahoria.png"}
+                    width={30}
+                    height={30}
+                    alt="img-verduras"
+                  />
+                }
                 onClick={() => setvalue(1)}
               />
               <BottomNavigationAction
-                label="Carnes"
+                label="Proteínas"
                 icon={
-                  <FontAwesomeIcon icon={faDrumstickBite} fontSize={"2em"} />
+                  <Image
+                    src={"/alimentos/carne.png"}
+                    width={30}
+                    height={30}
+                    alt="img-proteinas"
+                  />
                 }
                 onClick={() => setvalue(2)}
+              />
+
+              <BottomNavigationAction
+                label="Lácteos"
+                icon={
+                  <Image
+                    src={"/alimentos/leche.png"}
+                    width={30}
+                    height={30}
+                    alt="img-lacteos"
+                  />
+                }
+                onClick={() => setvalue(3)}
+              />
+              <BottomNavigationAction
+                label="Panes y Cereales"
+                icon={
+                  <Image
+                    src={"/alimentos/pan.png"}
+                    width={30}
+                    height={30}
+                    alt="img-apple"
+                  />
+                }
+                onClick={() => setvalue(4)}
+              />
+              <BottomNavigationAction
+                label="Tubérculos"
+                icon={
+                  <Image
+                    src={"/alimentos/potato.png"}
+                    width={30}
+                    height={30}
+                    alt="img-apple"
+                  />
+                }
+                onClick={() => setvalue(5)}
+              />
+              <BottomNavigationAction
+                label="Leguminosas"
+                icon={
+                  <Image
+                    src={"/alimentos/bean.png"}
+                    width={30}
+                    height={30}
+                    alt="img-apple"
+                  />
+                }
+                onClick={() => setvalue(6)}
+              />
+              <BottomNavigationAction
+                label="Grasas"
+                icon={
+                  <Image
+                    src={"/alimentos/aguacate.png"}
+                    width={30}
+                    height={30}
+                    alt="img-apple"
+                  />
+                }
+                onClick={() => setvalue(7)}
               />
             </BottomNavigation>
           </Grid>

@@ -1,6 +1,7 @@
 export interface IFood {
   name: string;
   description: string;
+  recomendacion: string;
   imgsrc: string;
   status?: boolean;
 }
