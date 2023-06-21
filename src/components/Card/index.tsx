@@ -15,6 +15,7 @@ import { IPlatos } from "@/interfaces/retos/retos";
 import { Container } from "@mui/system";
 import { ITypefood } from "@/interfaces/food/food";
 import Link from "next/link";
+import crypto from "crypto";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -56,16 +57,9 @@ const CardRetos = ({
   };
 
   function getRandomNumber(): number {
-    if (
-      typeof crypto !== "undefined" &&
-      typeof crypto.getRandomValues === "function"
-    ) {
-      const array = new Uint8Array(1);
-      crypto.getRandomValues(array);
-      return array[0] % 7;
-    } else {
-      return Math.floor(Math.random() * 7);
-    }
+    const randomBytes: Buffer = crypto.randomBytes(4);
+    const randomNumber: number = Math.abs(randomBytes.readInt32BE()) % 7;
+    return randomNumber;
   }
 
   React.useEffect(() => {
@@ -184,7 +178,7 @@ const CardRetos = ({
                     </Link>
                   </li>
                   <li>
-                    Para frutas pequeñas como uvas, ftutillas, etc. Comer solo
+                    Para frutas pequeñas como uvas, frutillas, etc. Comer solo
                     10 unidades.
                   </li>
                 </ul>
