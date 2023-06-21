@@ -5,7 +5,6 @@ import SpeedDial from "@mui/material/SpeedDial";
 import SpeedDialIcon from "@mui/material/SpeedDialIcon";
 import SpeedDialAction from "@mui/material/SpeedDialAction";
 import SettingsIcon from "@mui/icons-material/Settings";
-import AlimentosPreferencias from "@/components/PreferenciasAlimenticias/Preferencias";
 import RetosComponent from "../Retos";
 import { useRouter } from "next/router";
 import { CrudService } from "@/services/crud";
@@ -19,7 +18,6 @@ const actions = [
 const HomeComponent = () => {
   const router = useRouter();
   const { getById, getAllRetos } = CrudService();
-  const [data, setData] = useState<IFoods[]>();
   const storedEncryptedUID =
     typeof window !== "undefined" && window.localStorage.getItem("UDEN");
   let userUID = "";
@@ -29,6 +27,19 @@ const HomeComponent = () => {
   const user: any = getById("users", "userID", "==", userUID);
   const [userRetoID, setRetoID] = useState("");
 
+  const pushActiveFood = (auxFoodActive: ITypefood[], auxFood: IFoods[]) => {
+    Array.from(Object.values(auxFood[0].content)).map((foods) => {
+      auxFoodActive.push({
+        title: foods.title,
+        foods: foods.foods.filter((food) => food.status === true),
+      });
+    });
+    auxFood[0] = {
+      content: {
+        ...auxFoodActive,
+      },
+    };
+  };
   useEffect(() => {
     const fetchData = async () => {
       const auxFood: IFoods[] = [];
@@ -37,34 +48,13 @@ const HomeComponent = () => {
         setRetoID(user[0].retoId);
         if (user[0].retoId !== "") {
           await getAllRetos("tipos_retos").then((retosData) => {
-            console.log(retosData);
             if (retosData?.length) {
               auxFood.push({
                 content: {
                   ...user[0].preferencia_alimentos,
                 },
               });
-              const reto = retosData[0].retos.find(
-                (reto) => reto.title == user[0].retoId
-              );
-
-              Array.from(Object.values(auxFood[0].content)).map((foods) => {
-                console.log(foods);
-
-                auxFoodActive.push({
-                  title: foods.title,
-                  foods: foods.foods.filter(
-                    (food) =>
-                      food.status === true 
-                  ),
-                });
-              });
-              auxFood[0] = {
-                content: {
-                  ...auxFoodActive,
-                },
-              };
-              setData(auxFood);
+              pushActiveFood(auxFoodActive, auxFood);
             }
           });
         } else {
@@ -74,19 +64,7 @@ const HomeComponent = () => {
                 ...user[0].preferencia_alimentos,
               },
             });
-
-            Array.from(Object.values(auxFood[0].content)).map((foods) => {
-              auxFoodActive.push({
-                title: foods.title,
-                foods: foods.foods.filter((food) => food.status === true),
-              });
-            });
-            auxFood[0] = {
-              content: {
-                ...auxFoodActive,
-              },
-            };
-            setData(auxFood);
+            pushActiveFood(auxFoodActive, auxFood);
           }
         }
       }

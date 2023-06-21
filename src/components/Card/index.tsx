@@ -54,6 +54,20 @@ const CardRetos = ({
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  function getRandomNumber(): number {
+    if (
+      typeof crypto !== "undefined" &&
+      typeof crypto.getRandomValues === "function"
+    ) {
+      const array = new Uint8Array(1);
+      crypto.getRandomValues(array);
+      return array[0] % 7;
+    } else {
+      return Math.floor(Math.random() * 7);
+    }
+  }
+
   React.useEffect(() => {
     if (userPreferences && dataPlatos) {
       let alimentos: string[] = [];
@@ -67,7 +81,7 @@ const CardRetos = ({
                 let alimentosActivos = userItem.foods.filter(
                   (alimentoBuscado) => alimentoBuscado.status === true
                 );
-                const numeroAleatorio: number = Math.floor(Math.random() * 7);
+                const numeroAleatorio: number = getRandomNumber();
                 sustituciones.push({
                   Alimentointolerente: alimento,
                   alternativa: alimentosActivos[numeroAleatorio].name,
@@ -83,7 +97,7 @@ const CardRetos = ({
       });
       setIntolerancias(aux);
     }
-    // 
+    //
   }, [userPreferences, dataPlatos]);
 
   return (
@@ -146,28 +160,33 @@ const CardRetos = ({
               <Typography variant="body2" color="text.secondary">
                 Eres alérgico o itolerente a:
                 <ul>
-                  {
-                    intolerancias[0].alimentos.map((alimento) => (
-                      <li key={alimento}>{alimento}</li>
-                    ))
-                  }
+                  {intolerancias[0].alimentos.map((alimento) => (
+                    <li key={alimento}>{alimento}</li>
+                  ))}
                 </ul>
                 Te recomendamos remplazarlo:
                 <ul>
-                  {
-                    intolerancias[0].sustituciones.map((sustitucion) => (
-                      <li key={sustitucion.alternativa}>
-                        {sustitucion.Alimentointolerente} por{" "}
-                        {sustitucion.alternativa}
-                      </li>
-                    ))
-                  }
+                  {intolerancias[0].sustituciones.map((sustitucion) => (
+                    <li key={sustitucion.alternativa}>
+                      {sustitucion.Alimentointolerente} por{" "}
+                      {sustitucion.alternativa}
+                    </li>
+                  ))}
                 </ul>
                 <br />
-                <strong>Nota: </strong> 
+                <strong>Nota: </strong>
                 <ul>
-                  <li>Puedes encontrar mas opciones con sus respectivas porciones en:<Link href={"/recomendaciones"}>Recomendaciones alimenticias</Link></li>
-                  <li>Para frutas pequeñas como uvas, ftutillas, etc. Comer solo 10 unidades.</li>
+                  <li>
+                    Puedes encontrar mas opciones con sus respectivas porciones
+                    en:
+                    <Link href={"/recomendaciones"}>
+                      Recomendaciones alimenticias
+                    </Link>
+                  </li>
+                  <li>
+                    Para frutas pequeñas como uvas, ftutillas, etc. Comer solo
+                    10 unidades.
+                  </li>
                 </ul>
               </Typography>
             </Container>
