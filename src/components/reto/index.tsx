@@ -102,28 +102,32 @@ const RetoComponent = () => {
                 "Dieta Completada, Felicitaciones :)",
                 "success"
               );
-              router.push("/home");
+              router.push("/mis-retos");
             })
             .catch(async (e) => {
               await ModalSweet("Error", "error");
+              setLoading(false);
             });
         } else {
           update("users", idDoc, { retos: Array.from(Object.values(aux)) })
             .then(async () => {
               if (status == 2) await ModalSweet("Dia No completado", "info");
               else await ModalSweet("Dia Completado", "success");
+              setLoading(false);
             })
             .catch(async (e) => {
               await ModalSweet("Error", "error");
+              setLoading(false);
             });
         }
       } else {
         if (status === 1)
           await ModalSweet("Por día solo se pude completar un reto", "info");
         else await ModalSweet("Por día solo se pude cancelar un reto", "info");
+        setLoading(false);
       }
     }
-    setLoading(false);
+  
   };
 
   const handleDrawerToggle = () => {
@@ -188,17 +192,21 @@ const RetoComponent = () => {
                       }}
                     />
                     <ContainerCards>
-                      <CardRetos
-                        dataPlatos={
-                          retoActivo?.platos ? retoActivo.platos[0] : undefined
-                        }
-                        userPreferences={
-                          user?.length
-                            ? user[0].preferencia_alimentos
-                            : undefined
-                        }
-                        index={index}
-                      />
+                      {retoActivo?.platos && (
+                        <CardRetos
+                          dataPlatos={
+                            retoActivo?.platos
+                              ? retoActivo.platos[0]
+                              : undefined
+                          }
+                          userPreferences={
+                            user?.length
+                              ? user[0].preferencia_alimentos
+                              : undefined
+                          }
+                          index={index}
+                        />
+                      )}
                     </ContainerCards>
                   </PaperStyles>
                 </ContainerInformation>
@@ -216,17 +224,21 @@ const RetoComponent = () => {
                       }}
                     />
                     <ContainerCards>
-                      <CardRetos
-                        dataPlatos={
-                          retoActivo?.platos ? retoActivo.platos[1] : undefined
-                        }
-                        userPreferences={
-                          user?.length
-                            ? user[0].preferencia_alimentos
-                            : undefined
-                        }
-                        index={index}
-                      />
+                      {retoActivo?.platos && (
+                        <CardRetos
+                          dataPlatos={
+                            retoActivo?.platos
+                              ? retoActivo.platos[1]
+                              : undefined
+                          }
+                          userPreferences={
+                            user?.length
+                              ? user[0].preferencia_alimentos
+                              : undefined
+                          }
+                          index={index}
+                        />
+                      )}
                     </ContainerCards>
                   </PaperStyles>
                 </ContainerInformation>
@@ -236,17 +248,21 @@ const RetoComponent = () => {
                   <PaperStyles elevation={3}>
                     <Title>Almuerzo</Title>
                     <ContainerCards>
-                      <CardRetos
-                        dataPlatos={
-                          retoActivo?.platos ? retoActivo.platos[2] : undefined
-                        }
-                        userPreferences={
-                          user?.length
-                            ? user[0].preferencia_alimentos
-                            : undefined
-                        }
-                        index={index}
-                      />
+                      {retoActivo?.platos && (
+                        <CardRetos
+                          dataPlatos={
+                            retoActivo?.platos
+                              ? retoActivo.platos[2]
+                              : undefined
+                          }
+                          userPreferences={
+                            user?.length
+                              ? user[0].preferencia_alimentos
+                              : undefined
+                          }
+                          index={index}
+                        />
+                      )}
                     </ContainerCards>
                   </PaperStyles>
                 </ContainerInformation>
@@ -264,17 +280,21 @@ const RetoComponent = () => {
                       }}
                     />
                     <ContainerCards>
-                      <CardRetos
-                        dataPlatos={
-                          retoActivo?.platos ? retoActivo.platos[3] : undefined
-                        }
-                        userPreferences={
-                          user?.length
-                            ? user[0].preferencia_alimentos
-                            : undefined
-                        }
-                        index={index}
-                      />
+                      {retoActivo?.platos && (
+                        <CardRetos
+                          dataPlatos={
+                            retoActivo?.platos
+                              ? retoActivo.platos[3]
+                              : undefined
+                          }
+                          userPreferences={
+                            user?.length
+                              ? user[0].preferencia_alimentos
+                              : undefined
+                          }
+                          index={index}
+                        />
+                      )}
                     </ContainerCards>
                   </PaperStyles>
                 </ContainerInformation>
@@ -291,17 +311,21 @@ const RetoComponent = () => {
                       }}
                     />
                     <ContainerCards>
-                      <CardRetos
-                        dataPlatos={
-                          retoActivo?.platos ? retoActivo.platos[4] : undefined
-                        }
-                        userPreferences={
-                          user?.length
-                            ? user[0].preferencia_alimentos
-                            : undefined
-                        }
-                        index={index}
-                      />
+                      {retoActivo?.platos && (
+                        <CardRetos
+                          dataPlatos={
+                            retoActivo?.platos
+                              ? retoActivo.platos[4]
+                              : undefined
+                          }
+                          userPreferences={
+                            user?.length
+                              ? user[0].preferencia_alimentos
+                              : undefined
+                          }
+                          index={index}
+                        />
+                      )}
                     </ContainerCards>
                   </PaperStyles>
                 </ContainerInformation>

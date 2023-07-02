@@ -70,7 +70,7 @@ const CardRetos = ({
         item.alimentos.map((alimento) => {
           Array.from(Object.values(userPreferences)).map((userItem) => {
             userItem.foods.map((food) => {
-              if (food.name == alimento && food.status === false) {
+              if (food.name.toLocaleLowerCase().trim() == alimento.toLocaleLowerCase().trim() && food.status === false) {
                 alimentos.push(alimento);
                 let alimentosActivos = userItem.foods.filter(
                   (alimentoBuscado) => alimentoBuscado.status === true

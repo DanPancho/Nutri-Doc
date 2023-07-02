@@ -25,7 +25,13 @@ const drawerWidth = 240;
 export default function DrawerAppBar(props: Props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [active, setActive] = React.useState(0);
   const router = useRouter();
+
+  React.useEffect(() => {
+    const index = navItems.findIndex((item) => item.src == router.pathname );
+    setActive(index);
+  }, [router.pathname])
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -92,13 +98,14 @@ export default function DrawerAppBar(props: Props) {
             NUTRI-DOC
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            {navItems.map((item) => (
+            {navItems.map((item , index) => (
               <Button
                 key={item.name}
                 sx={{ color: "#000" }}
                 onClick={() => {
                   router.push(`/${item.src}`);
                 }}
+                variant={active === index ? "outlined": "text"}
               >
                 {item.name}
               </Button>

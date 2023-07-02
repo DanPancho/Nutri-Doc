@@ -27,6 +27,7 @@ const UserData = ({
   const handleSubmitConfig = async () => {
     const idDoc = (await getDoc("users", "userID", "==", uid)).docs[0].id;
     let validateConfig = false;
+    let invalidCategory = false;
     setLoading(true);
     if (idDoc) {
       if (config) {
@@ -36,8 +37,12 @@ const UserData = ({
           if (item.foods.filter((food) => food.status).length >= 7) {
             aux += item.foods.filter((food) => food.status).length;
           }
+          else {
+            invalidCategory = true;
+            return;
+          }
         });
-        if (aux >= resultMin) validateConfig = true;
+        if (aux >= resultMin && !invalidCategory) validateConfig = true;
       }
       if (validateConfig) {
         update("users", idDoc, { preferencia_alimentos: config, config: false })
